@@ -50,5 +50,9 @@ function createTestImageObject(id: string, imageUrl = "test-url"): ImageObject {
 }
 
 export {
-    generateId, createTestTextObject, createTestImageObject, createTestSlide, createTestPresentation
+    generateId,
+    createTestTextObject,
+    createTestImageObject,
+    createTestSlide,
+    createTestPresentation
 }
