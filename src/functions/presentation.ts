@@ -1,19 +1,23 @@
-import type {Presentation} from "../types/presentation";
+import type {Presentation} from "../types/presentation.js";
+import {Slide} from "../types/slide.js";
 
-function generateId(): string {
-    const timestamp = Date.now().toString(36);
-    const randomPart = Math.random().toString(36).substring(2, 8);
-    return `${timestamp}-${randomPart}`;
-}
-function createPresentation(id: string, name: string): Presentation {
+function createPresentation(id: string,
+                            name: string,
+                            slideId: string): Presentation {
+    const defaultSlide: Slide = {
+        id: slideId,
+        name: "Слайд 1",
+        background: {type: "none"},
+        objects: [],
+    };
     return {
         id,
         name,
-        slides: [],
+        slides: [defaultSlide],
     };
 }
 
-function updatePresentationName(presentation: Presentation, name: string): Presentation{
+function updatePresentationName(presentation: Presentation, name: string): Presentation {
     return {
         ...presentation,
         name,
@@ -24,8 +28,9 @@ function savePresentation(presentation: Presentation): string {
     return JSON.stringify(presentation, null, 2);
 }
 
+
 function loadPresentation(json: string): Presentation {
-    return JSON.parse(json) as Presentation;
+    return JSON.parse(json);
 }
 
 export {
