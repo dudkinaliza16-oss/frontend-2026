@@ -1,32 +1,37 @@
-import type {slideObject, point} from "./object";
-type colorBackground = {
+import type { SlideObject } from "./object.js";
+
+type Background = ColorBackground | ImageBackground | GradientBackground | DefaultBackground;
+
+type ColorBackground = {
     type: "color";
     color: string;
     opacity: number;
 }
 
-type imageBackground = {
+type ImageBackground = {
     type: "image";
     imageUrl: string;
 }
 
-type gradientBackground = {
+type GradientBackground = {
     type: 'gradient';
     colors: string[];
     angle?: number;
 }
 
-type noneBackground = {
-    type: "none";
-}
-
-type Background = colorBackground | imageBackground | gradientBackground | noneBackground;
 
 type Slide = {
     id: string;
     name: string;
     background: Background;
-    objects: slideObject[];
+    objects: SlideObject[];
 }
 
-export type {Slide, Background};
+type DefaultBackground = {
+    type: "none";
+}
+
+export type {
+    Slide,
+    Background
+};

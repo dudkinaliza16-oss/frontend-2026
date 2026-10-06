@@ -1,38 +1,44 @@
-type point = {
-    x: number;
-    y: number;
+type SlideObject = TextObject | ImageObject;
+
+type TextObject = BaseObject & {
+    type: 'text';
+    content: string;
+    font: Font;
 }
 
-type size = {
-    width: number;
-    height: number;
+type ImageObject = BaseObject & {
+    type: 'image';
+    imageUrl: string;
+    opacity: number;
+}
+type BaseObject = {
+    id: string;
+    location: Point;
+    size: Size;
+    rotation: number;
 }
 
-type font = {
+type Font = {
     family: string;
     size: number;
     color: string;
 }
 
-type baseObject = {
-    id: string;
-    location: point;
-    size: size;
-    rotation: number;
+type Point = {
+    x: number;
+    y: number;
 }
 
-type textObject = baseObject & {
-    type: 'text';
-    content: string;
-    font: font;
+type Size = {
+    width: number;
+    height: number;
 }
 
-type imageObject = baseObject & {
-    type: 'image';
-    imageUrl: string;
-    opacity: number;
-}
-
-type slideObject = textObject | imageObject;
-
-export type {slideObject, textObject, imageObject, point};
+export type {
+    SlideObject,
+    TextObject,
+    ImageObject,
+    Point,
+    Size,
+    Font
+};
