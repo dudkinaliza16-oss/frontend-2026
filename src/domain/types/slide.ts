@@ -1,4 +1,4 @@
-import type { SlideObject } from "./object.js";
+import type { SlideObject } from "./object.ts";
 
 type Background = ColorBackground | ImageBackground | GradientBackground | DefaultBackground;
 

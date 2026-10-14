@@ -1,5 +1,5 @@
-import type {Presentation} from "../types/presentation.js";
-import {Slide} from "../types/slide.js";
+import type {Presentation} from "../types/presentation.ts";
+import type {Slide} from "../types/slide.ts";
 
 function createPresentation(id: string,
                             name: string,

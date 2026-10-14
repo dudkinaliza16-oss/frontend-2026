@@ -1,14 +1,14 @@
-import { describe, it, expect } from 'vitest';
+import {describe, it, expect} from 'vitest';
 import {
     addSlideObject,
     removeObject,
     moveObject,
     resizeObject,
     updateTextObjectStyle
-} from "../functions/object.js";
-import type { Slide } from "../types/slide.js";
-import type { Font } from "../types/object.js";
-import {createTestSlide, createTestTextObject, createTestImageObject} from "../functions/utils.js";
+} from "../functions/object.ts";
+import type {Slide} from "../types/slide.ts";
+import type {Font} from "../types/object.ts";
+import {createTestSlide, createTestTextObject, createTestImageObject} from "../functions/utils.ts";
 
 describe("addSlideObject", () => {
     it("should add a new object to the end of the slide objects array", () => {
@@ -23,7 +23,7 @@ describe("addSlideObject", () => {
             id: slide.id,
             name: "Test slide",
             background: {type: "none"},
-            objects: [...slide.objects,newObject]
+            objects: [...slide.objects, newObject]
         }
 
         expect(expectedSlide).toEqual(slideWithObject);
@@ -57,7 +57,7 @@ describe("removeObject", () => {
 
 describe("moveObject", () => {
     it("should move a new object to new position", () => {
-        const newLocation = { x: 150, y: 300 };
+        const newLocation = {x: 150, y: 300};
         const obj1 = createTestTextObject("obj-1");
         const slide = {
             ...createTestSlide("slide-1"),
@@ -81,7 +81,7 @@ describe("moveObject", () => {
 
 describe("resizeObject", () => {
     it("should update size of the specified object", () => {
-        const newSize = {width: 20, height: 20 };
+        const newSize = {width: 20, height: 20};
         const obj1 = createTestTextObject("obj-1");
         const slide = {
             ...createTestSlide("slide-1"),

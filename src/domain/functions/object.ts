@@ -1,5 +1,5 @@
-import type {Slide} from "../types/slide.js";
-import type {SlideObject, Point, Size, Font} from "../types/object.js";
+import type {Slide} from "../types/slide.ts";
+import type {SlideObject, Point, Size, Font} from "../types/object.ts";
 
 function addSlideObject(slide: Slide,
                         object: SlideObject): Slide {

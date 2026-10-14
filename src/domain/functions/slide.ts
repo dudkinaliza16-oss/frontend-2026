@@ -1,5 +1,5 @@
-import type {Slide, Background} from "../types/slide.js";
-import type {Presentation} from "../types/presentation.js";
+import type {Slide, Background} from "../types/slide.ts";
+import type {Presentation} from "../types/presentation.ts";
 
 const DEFAULT_VALUE: number = 0;
 

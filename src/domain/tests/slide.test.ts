@@ -9,10 +9,10 @@ import {
     setSlideBackgroundGradient,
     setSlideBackgroundColor,
     clearSlideBackground
-} from "../functions/slide.js";
-import {Presentation} from "../types/presentation.js";
-import {Slide} from "../types/slide.js";
-import {createTestPresentation} from "../functions/utils";
+} from "../functions/slide.ts";
+import type {Presentation} from "../types/presentation.ts";
+import type {Slide} from "../types/slide.ts";
+import {createTestPresentation} from "../functions/utils.ts";
 describe("createDefaultSlide", () => {
     it("should create a slide with name", () => {
         const slide = createDefaultSlide("slide-1", "Новый слайд");

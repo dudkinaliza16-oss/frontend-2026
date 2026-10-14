@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import {createPresentation, updatePresentationName, savePresentation, loadPresentation} from "../functions/presentation.js";
-import {generateId} from "../functions/utils.js";
+import {createPresentation, updatePresentationName, savePresentation, loadPresentation} from "../functions/presentation.ts";
+import {generateId} from "../functions/utils.ts";
 describe('createPresentation', () => {
     it('should create a presentation with default slide', () => {
         const presentationId = generateId();
