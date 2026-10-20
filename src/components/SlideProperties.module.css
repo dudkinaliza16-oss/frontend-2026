@@ -1,0 +1,15 @@
+.properties {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.slideInfo {
+    display: flex;
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+}
+

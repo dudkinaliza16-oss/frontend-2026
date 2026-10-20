@@ -1,0 +1,40 @@
+.thumbnail {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+
+    background: white;
+    border: 1px solid #d9deea;
+    border-radius: 6px;
+}
+
+.workspace {
+    position: relative;
+    width: 960px;
+    max-width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+
+    background: white;
+    border: 1px solid #d9deea;
+    border-radius: 8px;
+}
+
+.thumbnailContent,
+.workspaceContent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 960px;
+    height: 540px;
+    transform-origin: top left;
+}
+
+.thumbnailContent {
+    transform: scale(0.228);
+}
+
+.workspaceContent {
+    transform: scale(1);
+}

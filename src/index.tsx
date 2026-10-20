@@ -1,6 +1,6 @@
 import {createRoot} from 'react-dom/client';
 import {App} from './components/App.js';
-import {addEditorChangeHandler, getState, setInitialState} from './editor.js';
+import {addEditorChangeHandler, getPresentationState, setInitialState} from './editor.js';
 import {createTestPresentation} from './data.js';
 
 setInitialState(createTestPresentation());
@@ -8,7 +8,7 @@ setInitialState(createTestPresentation());
 const root = createRoot(document.getElementById('root')!);
 
 function renderApp(): void {
-    root.render(<App presentation={getState()}/>);
+    root.render(<App presentation={getPresentationState()}/>);
 }
 
 renderApp();

@@ -1,0 +1,27 @@
+.workspaceWrapper {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 24px;
+    overflow: hidden;
+
+    background-color: #eef1f7;
+}
+
+.propertiesPanel {
+    padding: 16px 20px;
+
+    background-color: #ffffff;
+    border: 1px solid #e0e5ef;
+    border-radius: 12px;
+}
+
+.slideArea {
+    padding-right: 24px;
+    padding-left: 24px;
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+}

@@ -3,11 +3,9 @@ import type {Presentation} from "../types/presentation.ts";
 
 const DEFAULT_VALUE: number = 0;
 
-function createDefaultSlide(id: string,
-                            slideName: string): Slide {
+function createDefaultSlide(id: string): Slide {
     return {
         id: id,
-        name: slideName,
         background: {type: 'none'},
         objects: [],
     };
@@ -15,9 +13,8 @@ function createDefaultSlide(id: string,
 
 function addSlide(presentation: Presentation,
                   id: string,
-                  slideName?: string,
                   newIndex: number = -1): Presentation {
-    const newSlide = createDefaultSlide(id, slideName || `Слайд ${presentation.slides.length + 1}`);
+    const newSlide = createDefaultSlide(id);
     if (newIndex <= 0 || newIndex > presentation.slides.length + 1) {
         return {
             ...presentation,
@@ -75,12 +72,9 @@ function duplicateSlide(
         return { ...presentation };
     }
 
-    const currentSlide = presentation.slides[slideIndex];
-
     return addSlide(
         presentation,
         newId,
-        currentSlide.name,
         slideIndex + 2
     );
 }

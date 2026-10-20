@@ -6,7 +6,6 @@ function createPresentation(id: string,
                             slideId: string): Presentation {
     const defaultSlide: Slide = {
         id: slideId,
-        name: "Слайд 1",
         background: {type: "none"},
         objects: [],
     };

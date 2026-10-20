@@ -42,7 +42,7 @@ function createTestPresentation(): Presentation {
         ...presentation,
         slides: [...presentation.slides.slice(0, presentation.slides.length-1), slide1],
     };
-    presentation = addSlide(presentation, generateId(), 'Список');
+    presentation = addSlide(presentation, generateId());
     let slide2 = presentation.slides[presentation.slides.length - 1];
 
     slide2 = setSlideBackgroundColor(slide2, '#ffffff');
@@ -68,7 +68,7 @@ function createTestPresentation(): Presentation {
         slides: [...presentation.slides.slice(0, presentation.slides.length-1), slide2],
     };
 
-    presentation = addSlide(presentation, generateId(), 'Итоги');
+    presentation = addSlide(presentation, generateId());
     let slide3 = presentation.slides[presentation.slides.length - 1];
 
     slide3 = setSlideBackgroundColor(slide3, '#e8f5e9');

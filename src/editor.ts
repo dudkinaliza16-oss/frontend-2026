@@ -2,17 +2,32 @@ import type { Presentation } from './domain/types/presentation.js';
 
 type Modifier<P = any> = (model: Presentation, params: P) => Presentation;
 
-let currentPresentation: Presentation | null = null;
-let editorChangeHandler: (() => void) | null = null;
-
-//let currentSlide: string;
-
-function setInitialState(presentation: Presentation): void {
-    currentPresentation = presentation;
+type StateEdit = {
+    presentation: Presentation | null;
+    activeSlideId: string | null;
 }
 
-function getState(): Presentation | null {
-    return currentPresentation;
+let stateEdit: StateEdit = {
+    presentation: null,
+    activeSlideId: null,
+};
+
+let editorChangeHandler: (() => void) | null = null;
+
+
+function setInitialState(presentation: Presentation): void {
+    stateEdit.presentation = presentation;
+}
+
+function setActiveSlideId(id: string | null) {
+    stateEdit.activeSlideId = id;
+}
+function getPresentationState(): Presentation | null {
+    return stateEdit.presentation;
+}
+
+function getActiveSlideState(): string | null {
+    return stateEdit.activeSlideId;
 }
 
 function addEditorChangeHandler(handler: () => void): void {
@@ -20,12 +35,14 @@ function addEditorChangeHandler(handler: () => void): void {
 }
 
 function dispatch(modifier: Modifier, params: any = null): void {
-    if (!currentPresentation) {
+    if (!stateEdit.presentation) {
         console.error('State is not initialized! Call setInitialState first.');
         return;
     }
-    currentPresentation = modifier(currentPresentation, params);
-    editorChangeHandler?.();
+    stateEdit.presentation = modifier(stateEdit.presentation, params);
+    if (editorChangeHandler) {
+        editorChangeHandler();
+    }
 }
 
-export { setInitialState, getState, addEditorChangeHandler, dispatch };
+export { setInitialState, getPresentationState, getActiveSlideState, addEditorChangeHandler, setActiveSlideId, dispatch };

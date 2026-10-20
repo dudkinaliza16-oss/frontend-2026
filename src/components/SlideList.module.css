@@ -1,0 +1,35 @@
+.slideList {
+    display: flex;
+    flex-direction: column;
+
+    width: 20%;
+    height: 100%;
+    padding: 20px 16px;
+    overflow-y: scroll;
+
+    background-color: #f7f8fc;
+}
+
+.slideItem {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    padding: 8px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+}
+
+.slideItem:hover {
+    background-color: #edf1f9;
+    border-color: #dce3f0;
+}
+
+.slideNumber {
+    align-self: flex-start;
+
+    color: #52617c;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.4;
+}

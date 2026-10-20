@@ -1,0 +1,28 @@
+.textObject {
+    position: absolute;
+    border: none;
+    background: transparent;
+    overflow: hidden;
+}
+
+.imageObject {
+    position: absolute;
+    display: block;
+    object-fit: contain;
+}
+
+.thumbnailObject {
+    pointer-events: none;
+}
+
+.workspaceObject {
+    pointer-events: auto;
+}
+
+textarea.workspaceObject {
+    cursor: text;
+}
+
+img.workspaceObject {
+    cursor: default;
+}

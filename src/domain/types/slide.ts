@@ -22,7 +22,6 @@ type GradientBackground = {
 
 type Slide = {
     id: string;
-    name: string;
     background: Background;
     objects: SlideObject[];
 }

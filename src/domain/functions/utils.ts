@@ -9,7 +9,6 @@ function generateId(): string {
 function createTestSlide(id: string, objects: SlideObject[] = []): Slide {
     return {
         id,
-        name: "Test slide",
         background: {type: "none"},
         objects,
     };
