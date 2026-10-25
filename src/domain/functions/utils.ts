@@ -1,4 +1,4 @@
-import type {Slide} from "../types/slide.ts";
+import type {Background, Slide} from "../types/slide.ts";
 import type {SlideObject, TextObject, ImageObject} from "../types/object.ts";
 import type {Presentation} from "../types/presentation.ts";
 function generateId(): string {
@@ -48,10 +48,36 @@ function createTestImageObject(id: string, imageUrl = "test-url"): ImageObject {
     };
 }
 
+function getBackgroundStyle(background: Background) {
+    switch (background.type) {
+        case 'color':
+            return { backgroundColor: background.color };
+        case "none":
+            return { backgroundColor: "#ffffff" };
+        case 'image':
+            return {
+                backgroundImage: `url(${background.imageUrl})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+            };
+        case "gradient":
+            const angle = background.angle !== undefined ? `${background.angle}deg` : 'to right';
+            const colorsJoined = background.colors.join(', ');
+
+            return {
+                backgroundImage: `linear-gradient(${angle}, ${colorsJoined})`,
+            };
+        default:
+            return {};
+    }
+}
+
 export {
     generateId,
     createTestTextObject,
     createTestImageObject,
     createTestSlide,
-    createTestPresentation
+    createTestPresentation,
+    getBackgroundStyle
 }

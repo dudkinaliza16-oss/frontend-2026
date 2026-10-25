@@ -1,7 +1,10 @@
 .textObject {
     position: absolute;
+
     border: none;
     background: transparent;
+
+    resize: none;
     overflow: hidden;
 }
 

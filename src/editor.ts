@@ -14,6 +14,18 @@ let stateEdit: StateEdit = {
 
 let editorChangeHandler: (() => void) | null = null;
 
+let isPreviewMode = false;
+
+function setPreviewMode(mode: boolean): void {
+    isPreviewMode = mode;
+    if (editorChangeHandler) {
+        editorChangeHandler();
+    }
+}
+
+function getPreviewMode(): boolean {
+    return isPreviewMode;
+}
 
 function setInitialState(presentation: Presentation): void {
     stateEdit.presentation = presentation;
@@ -21,6 +33,9 @@ function setInitialState(presentation: Presentation): void {
 
 function setActiveSlideId(id: string | null) {
     stateEdit.activeSlideId = id;
+    if (editorChangeHandler) {
+        editorChangeHandler();
+    }
 }
 function getPresentationState(): Presentation | null {
     return stateEdit.presentation;
@@ -45,4 +60,4 @@ function dispatch(modifier: Modifier, params: any = null): void {
     }
 }
 
-export { setInitialState, getPresentationState, getActiveSlideState, addEditorChangeHandler, setActiveSlideId, dispatch };
+export { setPreviewMode, getPreviewMode, setInitialState, getPresentationState, getActiveSlideState, addEditorChangeHandler, setActiveSlideId, dispatch };

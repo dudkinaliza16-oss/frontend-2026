@@ -2,7 +2,7 @@ import type { Presentation } from '../domain/types/presentation.js';
 import { Button } from './Button.js';
 import styles from './Toolbar.module.css';
 import buttonStyles from './Button.module.css';
-import { dispatch } from '../editor.ts';
+import {dispatch, setPreviewMode} from '../editor.ts';
 import { updatePresentationName } from '../domain/functions/presentation.ts';
 import { TextInput } from './TextInput.tsx';
 import {addSlide} from "../domain/functions/slide.ts";
@@ -30,10 +30,7 @@ function Toolbar(props: ToolbarProps) {
                 <Button
                     text="Add Slide"
                     className={buttonStyles.button}
-                    onClick={() => dispatch(addSlide, {
-                        presentation: props.presentation,
-                        id: generateId()
-                    })}
+                    onClick={() => dispatch(addSlide, generateId())}
 
                 />
 
@@ -46,7 +43,7 @@ function Toolbar(props: ToolbarProps) {
                 <Button
                     text="Show"
                     className={buttonStyles.button}
-                    onClick={() => console.log('overflow')}
+                    onClick={() => {setPreviewMode(true);}}
                 />
 
                 <Button

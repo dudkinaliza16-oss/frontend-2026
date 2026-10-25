@@ -1,0 +1,28 @@
+.overlayButton{
+    width: 25%;
+    height: 100%;
+    position : absolute;
+    border: none;
+    z-index: 10;
+    background-color: #00000000;
+}
+
+.overlayButton:hover{
+    background-color: #bdc9dc20;
+}
+
+.overlayField{
+    position: relative;
+}
+
+.left {
+    left: 0;
+}
+
+.right {
+    right: 0;
+}
+
+.close{
+    position: absolute;
+}

@@ -1,23 +1,26 @@
 import type { SlideObject as SlideObjectType } from "../domain/types/object.ts";
 import styles from "./SlideObject.module.css";
+import {TextInput} from "./TextInput.tsx";
 
 type SlideObjectProps = {
     object: SlideObjectType;
-    mode: "thumbnail" | "workspace";
+    mode: "thumbnail" | "workspace" | "overlay";
 };
 
 function SlideObject(props: SlideObjectProps) {
     const object = props.object;
-    const modeClass = props.mode === "thumbnail"
-        ? styles.thumbnailObject
-        : styles.workspaceObject;
 
+    let modeClass = styles.overlayObject;
+    if (props.mode === "thumbnail") {
+        modeClass = styles.thumbnailObject;
+    } else  if (props.mode === "workspace") {
+        modeClass= styles.workspaceObject
+    }
     if (object.type === "text") {
         return (
-            <textarea
+            <TextInput
                 className={`${styles.textObject} ${modeClass}`}
                 value={object.content}
-                readOnly
                 style={{
                     left: object.location.x,
                     top: object.location.y,
