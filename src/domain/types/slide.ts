@@ -1,0 +1,36 @@
+import type { SlideObject } from "./object.ts";
+
+type Background = ColorBackground | ImageBackground | GradientBackground | DefaultBackground;
+
+type ColorBackground = {
+    type: "color";
+    color: string;
+    opacity: number;
+}
+
+type ImageBackground = {
+    type: "image";
+    imageUrl: string;
+}
+
+type GradientBackground = {
+    type: 'gradient';
+    colors: string[];
+    angle?: number;
+}
+
+
+type Slide = {
+    id: string;
+    background: Background;
+    objects: SlideObject[];
+}
+
+type DefaultBackground = {
+    type: "none";
+}
+
+export type {
+    Slide,
+    Background
+};

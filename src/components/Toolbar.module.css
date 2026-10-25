@@ -1,0 +1,33 @@
+.toolbar {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+    min-width: 0;
+    padding: 12px 24px;
+    box-sizing: border-box;
+}
+
+.presentationName {
+    padding: 10px 12px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #192b4d;
+    background-color: #f5f7fb;
+    border: 1px solid transparent;
+    border-radius: 8px;
+}
+
+.presentationName:focus {
+    background-color: #ffffff;
+    border-color: #263f78;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+

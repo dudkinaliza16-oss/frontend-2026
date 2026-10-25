@@ -1,0 +1,50 @@
+.thumbnail {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+
+    border: 1px solid #d9deea;
+    border-radius: 6px;
+}
+
+.workspace {
+    position: relative;
+    width: 960px;
+    max-width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+
+    border: 1px solid #d9deea;
+    border-radius: 8px;
+}
+
+.overlay {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.thumbnailContent,
+.workspaceContent,
+.overlayContent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 960px;
+    height: 540px;
+    transform-origin: top left;
+}
+
+.thumbnailContent {
+    transform: scale(0.228);
+}
+
+.workspaceContent {
+    transform: scale(1);
+}
+
+.overlayContent {
+    transform: scale(1.5);
+}
