@@ -13,6 +13,8 @@
 
 .overlayField{
     position: relative;
+    display: flex;
+    align-items: center;
 }
 
 .left {
@@ -25,4 +27,7 @@
 
 .close{
     position: absolute;
+    border: none;
+    z-index: 10;
+    background-color: #00000000;
 }

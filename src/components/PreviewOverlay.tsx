@@ -25,7 +25,7 @@ function PreviewOverlay(props: PreviewOverlayProps) {
     return (
         <>
             {!isFirst &&
-                (<Button text={"Назад"}
+                (<Button text={""}
                     onClick={() => {
                         console.log("Назад");
 
@@ -33,9 +33,9 @@ function PreviewOverlay(props: PreviewOverlayProps) {
                     className={`${styles.overlayButton} ${styles.left}`}
             />)}
             {!isLast &&
-                (<Button text={"Далее"}
+                (<Button text={""}
                     onClick={() => {
-                        console.log("Далее");
+                        console.log("");
                     }}
                     className={`${styles.overlayButton} ${styles.right}`}
             />)}
