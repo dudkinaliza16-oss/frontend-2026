@@ -1,9 +1,8 @@
-
-import type { Presentation } from "../domain/types/presentation.ts";
-import { SlideProperties } from "./SlideProperties.tsx";
-import { SlidePreview } from "./SlidePreview.tsx";
+import type { Presentation } from "../../domain/types/presentation.ts";
+import { SlideProperties } from "../SlideProperties/SlideProperties.tsx";
+import { SlidePreview } from "../SlidePreview/SlidePreview.tsx";
 import styles from "./Workspace.module.css";
-import {getActiveSlideState} from "../editor.ts";
+import {getActiveSlideState} from "../../editor.ts";
 
 type WorkspaceProps = {
     presentation: Presentation;

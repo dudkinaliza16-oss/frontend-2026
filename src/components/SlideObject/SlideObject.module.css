@@ -1,9 +1,7 @@
 .textObject {
     position: absolute;
-
     border: none;
     background: transparent;
-
     resize: none;
     overflow: hidden;
 }
@@ -20,12 +18,4 @@
 
 .workspaceObject {
     pointer-events: auto;
-}
-
-textarea.workspaceObject {
-    cursor: text;
-}
-
-img.workspaceObject {
-    cursor: default;
 }

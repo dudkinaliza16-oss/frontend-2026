@@ -1,11 +1,11 @@
-import type {Presentation} from '../domain/types/presentation.js';
-import {Toolbar} from './Toolbar.js';
-import {SlideList} from "./SlideList.js";
-import {Workspace} from "./Workspace.js";
+import type {Presentation} from '../../domain/types/presentation.js';
+import {Toolbar} from '../Toolbar/Toolbar.js';
+import {SlideList} from "../SlideList/SlideList.js";
+import {Workspace} from "../Workspace/Workspace.js";
+import {PreviewOverlay} from "../PreviewOverlay/PreviewOverlay.js";
 import "./base.css";
 import styles from "./App.module.css"
-import {getPresentationState, getPreviewMode, setPreviewMode} from "../editor.ts";
-import {PreviewOverlay} from "./PreviewOverlay.tsx";
+import {getPresentationState, getPreviewMode, setPreviewMode} from "../../editor.ts";
 
 function App() {
     let presentation : Presentation = getPresentationState();

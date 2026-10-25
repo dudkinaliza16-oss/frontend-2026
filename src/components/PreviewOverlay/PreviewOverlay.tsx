@@ -1,7 +1,7 @@
-import type {Presentation} from "../domain/types/presentation.ts";
-import {SlidePreview} from "./SlidePreview.tsx";
-import {Button} from "./Button.tsx";
-import {getActiveSlideState} from "../editor.ts";
+import type {Presentation} from "../../domain/types/presentation.ts";
+import {SlidePreview} from "../SlidePreview/SlidePreview.tsx";
+import {Button} from "../Button/Button.tsx";
+import {getActiveSlideState} from "../../editor.ts";
 import styles from "./PreviewOverlay.module.css";
 
 type PreviewOverlayProps = {

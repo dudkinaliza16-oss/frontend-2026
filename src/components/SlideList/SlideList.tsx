@@ -1,8 +1,8 @@
-import type {Presentation} from "../domain/types/presentation.ts";
-import type {Slide} from "../domain/types/slide.ts";
-import {SlidePreview} from "./SlidePreview.tsx";
+import type {Presentation} from "../../domain/types/presentation.ts";
+import type {Slide} from "../../domain/types/slide.ts";
+import {SlidePreview} from "../SlidePreview/SlidePreview.tsx";
 import styles from "./SlideList.module.css";
-import {setActiveSlideId} from "../editor.ts";
+import {setActiveSlideId} from "../../editor.ts";
 
 type SlideListProps = {
     presentation: Presentation;

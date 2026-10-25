@@ -1,7 +1,7 @@
-import type {Slide} from "../domain/types/slide.ts";
-import {SlideObject} from "./SlideObject.tsx";
+import type {Slide} from "../../domain/types/slide.js";
+import {SlideObject} from "../SlideObject/SlideObject.js";
 import styles from "./SlidePreview.module.css";
-import {getBackgroundStyle} from "../domain/functions/utils.ts"
+import {getBackgroundStyle} from "../../domain/functions/utils.js"
 
 type SlidePreviewProps = {
     slide: Slide;
