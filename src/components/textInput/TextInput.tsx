@@ -5,8 +5,10 @@ type TextInputProps = {
     placeholder?: string;
     type?: 'text' | 'color' | 'number';
     onChange?: (value: string) => void;
+    onClick?: (e: React.MouseEvent) => void;
     className?: string;
     style?: React.CSSProperties;
+    onMouseDown?: (e: React.MouseEvent) => void;
 };
 
 function TextInput(props: TextInputProps) {
@@ -16,8 +18,12 @@ function TextInput(props: TextInputProps) {
             placeholder={props.placeholder}
             type={props.type}
             className={props.className}
-            onChange={(e) => props.onChange(e.target.value)}
+            onChange={(event) => props.onChange?.(event.target.value)}
             style={props.style}
+            onMouseDown={(event) => {
+                props.onMouseDown?.(event);
+                props.onClick?.(event);
+            }}
         />
     );
 }

@@ -5,6 +5,9 @@ import {TextInput} from "../textInput/TextInput.js";
 type SlideObjectProps = {
     object: SlideObjectType;
     mode: "thumbnail" | "workspace" | "overlay";
+    isSelected?: boolean;
+    onClick?: (e: React.MouseEvent) => void;
+    onMouseDown?: (e: React.MouseEvent) => void;
 };
 
 function SlideObject(props: SlideObjectProps) {
@@ -13,14 +16,20 @@ function SlideObject(props: SlideObjectProps) {
     let modeClass = styles.overlayObject;
     if (props.mode === "thumbnail") {
         modeClass = styles.thumbnailObject;
-    } else  if (props.mode === "workspace") {
-        modeClass= styles.workspaceObject
+    } else if (props.mode === "workspace") {
+        modeClass = styles.workspaceObject
     }
+    const selectionClass =
+        props.isSelected
+            ? styles.selected
+            : "";
     if (object.type === "text") {
         return (
             <TextInput
-                className={`${styles.textObject} ${modeClass}`}
+                onMouseDown={props.onMouseDown}
+                className={`${styles.textObject} ${modeClass} ${selectionClass}`}
                 value={object.content}
+                onClick={props.onClick}
                 style={{
                     left: object.location.x,
                     top: object.location.y,
@@ -38,9 +47,11 @@ function SlideObject(props: SlideObjectProps) {
     if (object.type === "image") {
         return (
             <img
-                className={`${styles.imageObject} ${modeClass}`}
+                onMouseDown={props.onMouseDown}
+                className={`${styles.imageObject} ${modeClass} ${selectionClass}`}
                 src={object.imageUrl}
                 alt=""
+                onClick={props.onClick}
                 style={{
                     left: object.location.x,
                     top: object.location.y,
@@ -56,4 +67,4 @@ function SlideObject(props: SlideObjectProps) {
     return null;
 }
 
-export { SlideObject };
+export {SlideObject};

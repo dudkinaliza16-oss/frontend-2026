@@ -43,3 +43,11 @@
 .overlayContent {
     transform: scale(1.5);
 }
+
+.workspaceContent{
+    pointer-events: none;
+}
+
+.workspaceContent > *{
+    pointer-events: auto;
+}

@@ -1,9 +1,9 @@
 .textObject {
     position: absolute;
-    border: none;
     background: transparent;
-    resize: none;
     overflow: hidden;
+    outline: none;
+    border-color: transparent;
 }
 
 .imageObject {
@@ -12,10 +12,13 @@
     object-fit: contain;
 }
 
-.thumbnailObject {
+.thumbnailObject,
+.overlayObject{
     pointer-events: none;
 }
 
-.workspaceObject {
-    pointer-events: auto;
+.selected {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+    z-index: 10;
 }

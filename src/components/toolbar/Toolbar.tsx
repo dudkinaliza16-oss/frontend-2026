@@ -1,17 +1,12 @@
 import type {Presentation} from '../../domain/types/presentation.js';
 import {Button} from '../button/Button.js';
 import styles from './Toolbar.module.css';
-import buttonStyles from '../Button/Button.module.css';
-import {dispatch, setPreviewMode} from '../../editor.ts';
-import { updatePresentationName } from '../../domain/functions/presentation.ts';
-import { TextInput } from '../TextInput/TextInput.tsx';
-import {addSlide} from "../../domain/functions/slide.ts";
-import {generateId} from "../../domain/functions/utils.ts";
 import buttonStyles from '../button/Button.module.css';
 import {dispatch, setPreviewMode} from '../../modules/editor.ts';
 import {TextInput} from '../textInput/TextInput.tsx';
 import {
     addSlideModifier,
+    updatePresentationNameModifier
 } from "../../modules/modifiers.ts";
 
 type ToolbarProps = {
@@ -26,32 +21,37 @@ function Toolbar(props: ToolbarProps) {
                     value={props.presentation.name}
                     placeholder="Название презентации"
                     className={styles.presentationName}
-                    onChange={(name) =>
-                        dispatch(updatePresentationName, name)
+                    onChange={(name) => {
+                        dispatch(updatePresentationNameModifier, name);
+                    }
                     }
                 />
             </div>
-
             <div className={styles.actions}>
+                <Button
+                    text="↩unDo"
+                    className={buttonStyles.button}
+                    onClick={() => console.log('save')}
+                />
+                <Button
+                    text="↪reDo"
+                    className={buttonStyles.button}
+                    onClick={() => console.log('save')}
+                />
                 <Button
                     text="Add Slide"
                     className={buttonStyles.button}
-                    onClick={() => dispatch(addSlide, generateId())}
-
+                    onClick={() => {
+                        dispatch(addSlideModifier, undefined);
+                    }}
                 />
-
-                <Button
-                    text="Add Image"
-                    className={buttonStyles.button}
-                    onClick={() => console.log('add img')}
-                />
-
                 <Button
                     text="Show"
                     className={buttonStyles.button}
-                    onClick={() => {setPreviewMode(true);}}
+                    onClick={() => {
+                        setPreviewMode(true);
+                    }}
                 />
-
                 <Button
                     text="Save PDF"
                     className={buttonStyles.button}
@@ -62,4 +62,4 @@ function Toolbar(props: ToolbarProps) {
     );
 }
 
-export { Toolbar };
+export {Toolbar};

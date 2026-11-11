@@ -24,18 +24,22 @@ function Workspace(props: WorkspaceProps) {
     }
     return (
         <div className={styles.workspaceWrapper}>
-            <div className={styles.propertiesPanel}>
-                <SlideProperties />
-            </div>
-
-            <div className={styles.slideArea}>
-                {activeSlide && (
-                    <SlidePreview
-                        slide={activeSlide}
-                        mode="workspace"
-                    />
-                )}
-            </div>
+            {activeSlide && (
+                <>
+                    <div className={styles.propertiesPanel}>
+                        <SlideProperties />
+                    </div>
+                    <div className={styles.slideArea}>
+                        <SlidePreview
+                            slide={activeSlide}
+                            mode="workspace"
+                            selectedIds={selectedIds}
+                            onObjectClick={handlerSelect}
+                            onSlideClick={handleSlideClick}
+                        />
+                    </div>
+                </>
+            )}
         </div>
     );
 }
