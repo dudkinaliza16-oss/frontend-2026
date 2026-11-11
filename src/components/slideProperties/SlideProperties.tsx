@@ -10,20 +10,17 @@ import buttonStyles from '../button/Button.module.css';
 function SlideProperties() {
     return (
         <div className={styles.properties}>
-
             <div className={styles.actions}>
                 <Button
                     text="+ Текст"
                     className={buttonStyles.button}
                     onClick={() => console.log("add text")}
                 />
-
                 <Button
                     text="+ Изображение"
                     className={buttonStyles.button}
                     onClick={() => console.log("add image")}
                 />
-
                 <Button
                     text="Фон"
                     className={buttonStyles.button}
@@ -34,4 +31,4 @@ function SlideProperties() {
     );
 }
 
-export { SlideProperties };
+export {SlideProperties};
