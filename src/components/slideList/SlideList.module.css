@@ -16,7 +16,7 @@
 }
 
 .slideItem:hover,
-.slideItemActive{
+.Active {
     background-color: #edf1f9;
     border-color: #dce3f0;
 }
