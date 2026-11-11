@@ -1,9 +1,9 @@
 import {describe, it, expect} from 'vitest';
 import {
     addSlideObject,
-    removeObject,
-    moveObject,
-    resizeObject,
+    removeSlideObject,
+    moveSlideObject,
+    resizeSlideObject,
     updateTextObjectStyle
 } from "../functions/object.ts";
 import type {Slide} from "../types/slide.ts";
@@ -21,7 +21,6 @@ describe("addSlideObject", () => {
 
         const expectedSlide: Slide = {
             id: slide.id,
-            name: "Test slide",
             background: {type: "none"},
             objects: [...slide.objects, newObject]
         }
@@ -42,7 +41,7 @@ describe("removeObject", () => {
         };
         const slideCopy = structuredClone(slide);
 
-        const slideWithoutObject = removeObject(slide, "obj-1");
+        const slideWithoutObject = removeSlideObject(slide, "obj-1");
 
         const expectedSlide: Slide = {
             ...slide,
@@ -64,7 +63,7 @@ describe("moveObject", () => {
             objects: [obj1]
         };
         const slideCopy = structuredClone(slide);
-        const slideWithMoveObject = moveObject(slide, "obj-1", newLocation);
+        const slideWithMoveObject = moveSlideObject(slide, "obj-1", newLocation);
         const expectedSlide: Slide = {
             ...slide,
             objects: [
@@ -88,7 +87,7 @@ describe("resizeObject", () => {
             objects: [obj1]
         };
         const slideCopy = structuredClone(slide);
-        const slideWithResizeObject = resizeObject(slide, "obj-1", newSize);
+        const slideWithResizeObject = resizeSlideObject(slide, "obj-1", newSize);
         const expectedSlide: Slide = {
             ...slide,
             objects: [

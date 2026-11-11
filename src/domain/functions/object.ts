@@ -9,7 +9,7 @@ function addSlideObject(slide: Slide,
     }
 }
 
-function removeObject(slide: Slide,
+function removeSlideObject(slide: Slide,
                       objectId: string): Slide {
     const newObjects = slide.objects.filter(object => object.id !== objectId);
     return {
@@ -18,7 +18,7 @@ function removeObject(slide: Slide,
     }
 }
 
-function modifyObject(slide: Slide,
+function modifySlideObject(slide: Slide,
                       objectId: string,
                       modifier: (obj: SlideObject) => SlideObject): Slide {
     return {
@@ -32,19 +32,19 @@ function modifyObject(slide: Slide,
     };
 }
 
-function moveObject(slide: Slide,
-                    objectId: string,
-                    newLocation: Point): Slide {
-    return modifyObject(slide, objectId, obj => ({
+function moveSlideObject(slide: Slide,
+                         objectId: string,
+                         newLocation: Point): Slide {
+    return modifySlideObject(slide, objectId, obj => ({
         ...obj,
         location: newLocation,
     }));
 }
 
-function resizeObject(slide: Slide,
-                      objectId: string,
-                      newSize: Size): Slide {
-    return modifyObject(slide, objectId, obj => ({
+function resizeSlideObject(slide: Slide,
+                           objectId: string,
+                           newSize: Size): Slide {
+    return modifySlideObject(slide, objectId, obj => ({
         ...obj,
         size: newSize,
     }));
@@ -53,7 +53,7 @@ function resizeObject(slide: Slide,
 function updateTextObjectStyle(slide: Slide,
                                objectId: string,
                                newFont: Font): Slide {
-    return modifyObject(slide, objectId, obj => {
+    return modifySlideObject(slide, objectId, obj => {
         if (obj.type === 'text') {
             return {
                 ...obj,
@@ -66,8 +66,8 @@ function updateTextObjectStyle(slide: Slide,
 
 export {
     addSlideObject,
-    removeObject,
-    resizeObject,
-    moveObject,
+    removeSlideObject,
+    resizeSlideObject,
+    moveSlideObject,
     updateTextObjectStyle
 }
