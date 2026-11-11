@@ -1,6 +1,8 @@
 import type {SlideObject as SlideObjectType} from "../../domain/types/object.ts";
 import styles from "./SlideObject.module.css";
-import {TextInput} from "../textInput/TextInput.js";
+import {EditableText} from "../editableText/EditableText.tsx";
+import {updateTextObjectContentModifier} from "../../modules/modifiers.ts";
+import {dispatch} from "../../modules/editor.ts";
 
 type SlideObjectProps = {
     object: SlideObjectType;
@@ -12,7 +14,6 @@ type SlideObjectProps = {
 
 function SlideObject(props: SlideObjectProps) {
     const object = props.object;
-
     let modeClass = styles.overlayObject;
     if (props.mode === "thumbnail") {
         modeClass = styles.thumbnailObject;
@@ -25,16 +26,23 @@ function SlideObject(props: SlideObjectProps) {
             : "";
     if (object.type === "text") {
         return (
-            <TextInput
+            <EditableText
                 onMouseDown={props.onMouseDown}
                 className={`${styles.textObject} ${modeClass} ${selectionClass}`}
                 value={object.content}
-                onClick={props.onClick}
+                onChange={
+                    props.mode === "workspace"
+                        ? (newContent) =>
+                            dispatch(updateTextObjectContentModifier, {
+                                objectId: object.id,
+                                newContent,
+                            })
+                        : undefined
+                }
                 style={{
                     left: object.location.x,
                     top: object.location.y,
                     width: object.size.width,
-                    height: object.size.height,
                     transform: `rotate(${object.rotation}deg)`,
                     fontFamily: object.font.family,
                     fontSize: object.font.size,
@@ -51,7 +59,6 @@ function SlideObject(props: SlideObjectProps) {
                 className={`${styles.imageObject} ${modeClass} ${selectionClass}`}
                 src={object.imageUrl}
                 alt=""
-                onClick={props.onClick}
                 style={{
                     left: object.location.x,
                     top: object.location.y,

@@ -17,9 +17,10 @@ type SlidePreviewProps = {
 function SlidePreview(props: SlidePreviewProps) {
     const selectedIds = props.selectedIds ?? [];
     const {dragging, offset, handleMouseDown} = useDragAndDrop((delta) => {
-        if (delta.x === 0 && delta.y === 0)  {
+        if (delta.x === 0 && delta.y === 0) {
             return;
         }
+
         selectedIds.forEach((id) => {
             const obj = props.slide.objects.find(object => object.id === id);
             if (!obj) return;
@@ -74,7 +75,6 @@ function SlidePreview(props: SlidePreviewProps) {
     }[props.mode];
 
     const backgroundStyle = getBackgroundStyle(props.slide.background);
-
     return (
         <div className={previewClass}
              style={{

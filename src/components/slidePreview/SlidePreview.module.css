@@ -33,7 +33,7 @@
 }
 
 .thumbnailContent {
-    transform: scale(0.228);
+    transform: scale(0.199);
 }
 
 .workspaceContent {
@@ -41,7 +41,7 @@
 }
 
 .overlayContent {
-    transform: scale(1.5);
+    transform: scale(1.41);
 }
 
 .workspaceContent{

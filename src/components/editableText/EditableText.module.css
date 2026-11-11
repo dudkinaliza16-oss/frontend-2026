@@ -1,0 +1,11 @@
+.editableText {
+    white-space: pre-wrap;
+    word-break: break-word;
+    user-select: none;
+}
+
+.editing {
+    outline: 2px solid #3b82f6;
+    cursor: text;
+    user-select: text;
+}
