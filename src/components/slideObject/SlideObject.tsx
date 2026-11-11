@@ -1,6 +1,6 @@
-import type { SlideObject as SlideObjectType } from "../../domain/types/object.ts";
+import type {SlideObject as SlideObjectType} from "../../domain/types/object.ts";
 import styles from "./SlideObject.module.css";
-import {TextInput} from "../TextInput/TextInput.js";
+import {TextInput} from "../textInput/TextInput.js";
 
 type SlideObjectProps = {
     object: SlideObjectType;

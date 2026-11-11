@@ -1,7 +1,8 @@
-import {createRoot} from 'react-dom/client';
-import {App} from './components/App/App.js';
-import {addEditorChangeHandler, setInitialState} from './editor.js';
-import {createTestPresentation} from './data.js';
+import { createRoot } from 'react-dom/client';
+import { App } from './components/app/App.js';
+import { addEditorChangeHandler } from './modules/editor.ts';
+import { createTestPresentation } from './data.js';
+import { setInitialState } from './modules/editor.ts';
 
 setInitialState(createTestPresentation());
 

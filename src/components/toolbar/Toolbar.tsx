@@ -1,5 +1,5 @@
-import type { Presentation } from '../../domain/types/presentation.js';
-import { Button } from '../Button/Button.js';
+import type {Presentation} from '../../domain/types/presentation.js';
+import {Button} from '../button/Button.js';
 import styles from './Toolbar.module.css';
 import buttonStyles from '../Button/Button.module.css';
 import {dispatch, setPreviewMode} from '../../editor.ts';
@@ -7,6 +7,12 @@ import { updatePresentationName } from '../../domain/functions/presentation.ts';
 import { TextInput } from '../TextInput/TextInput.tsx';
 import {addSlide} from "../../domain/functions/slide.ts";
 import {generateId} from "../../domain/functions/utils.ts";
+import buttonStyles from '../button/Button.module.css';
+import {dispatch, setPreviewMode} from '../../modules/editor.ts';
+import {TextInput} from '../textInput/TextInput.tsx';
+import {
+    addSlideModifier,
+} from "../../modules/modifiers.ts";
 
 type ToolbarProps = {
     presentation: Presentation;

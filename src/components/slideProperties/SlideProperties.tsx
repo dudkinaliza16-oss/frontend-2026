@@ -1,7 +1,7 @@
 //import type { Slide } from "../domain/types/slide.ts";
-import { Button } from "../Button/Button.js";
+import {Button} from "../button/Button.js";
 import styles from "./SlideProperties.module.css";
-import buttonStyles from '../Button/Button.module.css';
+import buttonStyles from '../button/Button.module.css';
 
 //type SlidePropertiesProps = {
 //    slide: Slide;

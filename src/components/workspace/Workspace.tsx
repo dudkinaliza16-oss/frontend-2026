@@ -1,18 +1,19 @@
 import type { Presentation } from "../../domain/types/presentation.ts";
-import { SlideProperties } from "../SlideProperties/SlideProperties.tsx";
-import { SlidePreview } from "../SlidePreview/SlidePreview.tsx";
+import { SlideProperties } from "../slideProperties/SlideProperties.tsx";
+import { SlidePreview } from "../slidePreview/SlidePreview.tsx";
 import styles from "./Workspace.module.css";
-import {getActiveSlideState} from "../../editor.ts";
 import {getActiveSlideId} from "../../modules/editor.ts";
+import {useSelection} from "../../hooks/useSelection.ts";
 
 type WorkspaceProps = {
     presentation: Presentation;
 }
 function Workspace(props: WorkspaceProps) {
-    const activeSlideId = getActiveSlideState();
-    const activeSlide = props.presentation.slides.find(slide => slide.id === activeSlideId)
-        || props.presentation.slides[0];
     const activeSlideId = getActiveSlideId();
+    const  {selectedIds, handleSlideClick, handlerSelect} = useSelection();
+    const activeSlide = props.presentation.slides.find(
+        slide => slide.id === activeSlideId
+    );
     if (props.presentation.slides.length === 0) {
         return (
             <div className={styles.emptyWorkspace}>

@@ -1,7 +1,9 @@
 import type {Slide} from "../../domain/types/slide.js";
-import {SlideObject} from "../SlideObject/SlideObject.js";
+import {SlideObject} from "../slideObject/SlideObject.js";
 import styles from "./SlidePreview.module.css";
 import {getBackgroundStyle} from "../../domain/functions/utils.js"
+import {useDragAndDrop} from "../../hooks/useDragAndDrop.ts";
+import {dispatch} from "../../modules/editor.ts";
 
 type SlidePreviewProps = {
     slide: Slide;
