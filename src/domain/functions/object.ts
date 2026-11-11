@@ -64,10 +64,25 @@ function updateTextObjectStyle(slide: Slide,
     });
 }
 
+function updateTextObjectContent(slide: Slide,
+                                 objectId: string,
+                                 newContent: string): Slide {
+    return modifySlideObject(slide, objectId, obj => {
+        if (obj.type === 'text') {
+            return {
+                ...obj,
+                content: newContent
+            };
+        }
+        return obj;
+    });
+}
+
 export {
     addSlideObject,
     removeSlideObject,
     resizeSlideObject,
     moveSlideObject,
-    updateTextObjectStyle
+    updateTextObjectStyle,
+    updateTextObjectContent
 }

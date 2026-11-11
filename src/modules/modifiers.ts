@@ -1,8 +1,13 @@
-import {addSlideObject, moveSlideObject, removeSlideObject} from "../domain/functions/object.ts";
+import {
+    addSlideObject,
+    moveSlideObject,
+    removeSlideObject,
+    updateTextObjectContent, updateTextObjectStyle
+} from "../domain/functions/object.ts";
 import type {StateEdit} from "./editor.ts";
 import {generateId} from "../domain/functions/utils.ts";
 import {addSlide} from "../domain/functions/slide.ts";
-import type {Point, SlideObject} from "../domain/types/object.ts";
+import type {Font, Point, SlideObject} from "../domain/types/object.ts";
 
 function removeSelectedObjectsModifier(
     stateEdit: StateEdit,
@@ -130,6 +135,56 @@ function moveSlideObjectModifier(
     };
 }
 
+function updateTextObjectContentModifier(
+    stateEdit: StateEdit,
+    params: { objectId: string, newContent: string}){
+    const {objectId, newContent} = params;
+    if (!stateEdit.presentation || !stateEdit.activeSlideId) {
+        return stateEdit;
+    }
+    const slideIndex = stateEdit.presentation.slides.findIndex(slide => slide.id === stateEdit.activeSlideId);
+    if (slideIndex === -1) {
+        return stateEdit;
+    }
+    let slide = stateEdit.presentation.slides[slideIndex];
+    slide = updateTextObjectContent(slide, objectId, newContent);
+    const newSlides = [...stateEdit.presentation.slides];
+    newSlides[slideIndex] = slide;
+    return {
+        ...stateEdit,
+        presentation: {
+            ...stateEdit.presentation,
+            slides: newSlides
+        }
+    };
+
+}
+
+function updateTextObjectStyleModifier(
+    stateEdit: StateEdit,
+    params: { objectId: string, newFont: Font}){
+    const {objectId, newFont} = params;
+    if (!stateEdit.presentation || !stateEdit.activeSlideId) {
+        return stateEdit;
+    }
+    const slideIndex = stateEdit.presentation.slides.findIndex(slide => slide.id === stateEdit.activeSlideId);
+    if (slideIndex === -1) {
+        return stateEdit;
+    }
+    let slide = stateEdit.presentation.slides[slideIndex];
+    slide = updateTextObjectStyle(slide, objectId, newFont);
+    const newSlides = [...stateEdit.presentation.slides];
+    newSlides[slideIndex] = slide;
+    return {
+        ...stateEdit,
+        presentation: {
+            ...stateEdit.presentation,
+            slides: newSlides
+        }
+    };
+
+}
+
 export {
     removeSelectedObjectsModifier,
     removeSlidesModifier,
@@ -137,4 +192,6 @@ export {
     addSlideModifier,
     addSlideObjectModifier,
     moveSlideObjectModifier,
+    updateTextObjectContentModifier,
+    updateTextObjectStyleModifier
 }
