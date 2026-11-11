@@ -7,8 +7,10 @@ import type {SlideObject} from "./domain/types/object.ts";
 
 function generateTextObject(id: string,
                             content: string,
-                            x: number, y: number,
-                            width: number, height: number,
+                            x: number,
+                            y: number,
+                            width: number,
+                            height: number,
                             rotation: number,
                             family: string,
                             size: number,
