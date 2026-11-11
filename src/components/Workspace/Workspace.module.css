@@ -13,6 +13,14 @@
     border: 1px solid #e0e5ef;
 }
 
+.emptyWorkspace{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
 .slideArea {
     display: flex;
     align-items: center;
