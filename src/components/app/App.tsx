@@ -6,7 +6,10 @@ import styles from "./App.module.css"
 import {getPresentationState, getPreviewMode, setPreviewMode} from "../../modules/editor.ts";
 
 function App() {
-    let presentation : Presentation = getPresentationState();
+    const presentation = getPresentationState();
+    if (!presentation) {
+        return null;
+    }
     if (getPreviewMode()) {
         return (
             <PreviewOverlay
@@ -16,11 +19,12 @@ function App() {
         );
     }
     return (
-        <div className={styles.mainContainer}>
-            <Toolbar presentation={presentation} />
+        <div
+            className={styles.mainContainer}>
+            <Toolbar presentation={presentation}/>
             <div className={styles.editorField}>
-                <SlideList presentation={presentation} />
-                <Workspace presentation={presentation} />
+                <SlideList presentation={presentation}/>
+                <Workspace presentation={presentation}/>
             </div>
         </div>
     );
