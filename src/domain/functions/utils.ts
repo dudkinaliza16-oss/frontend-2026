@@ -42,7 +42,10 @@ function createTestImageObject(id: string, imageUrl = "test-url"): ImageObject {
         imageUrl,
         opacity: 1,
         id,
-        location: {x: 0, y: 0},
+        location: {
+            x: 0,
+            y: 0
+        },
         size: {width: 10, height: 10},
         rotation: 0,
     };
@@ -59,15 +62,16 @@ function getBackgroundStyle(background: Background) {
                 backgroundImage: `url(${background.imageUrl})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
             };
-        case "gradient":
-            const angle = background.angle !== undefined ? `${background.angle}deg` : 'to right';
+        case "gradient":{
+            const angle = background.angle !== undefined
+                ? `${background.angle}deg`
+                : 'to right';
             const colorsJoined = background.colors.join(', ');
-
             return {
                 backgroundImage: `linear-gradient(${angle}, ${colorsJoined})`,
             };
+        }
         default:
             return {};
     }
