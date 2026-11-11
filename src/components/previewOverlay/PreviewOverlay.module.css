@@ -27,6 +27,8 @@
 }
 
 .close{
+    font-size: 30px;
+    right: 0;
     position: absolute;
     border: none;
     z-index: 10;

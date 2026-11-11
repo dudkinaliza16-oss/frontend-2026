@@ -11,37 +11,34 @@ type PreviewOverlayProps = {
 
 function PreviewOverlay(props: PreviewOverlayProps) {
     const slides = props.presentation.slides;
-    const activeSlideId = getActiveSlideState();
-
+    const activeSlideId = getActiveSlideId();
     const currentIndex = slides.findIndex(slide => slide.id === activeSlideId);
     const safeIndex = currentIndex !== -1
         ? currentIndex
         : 0;
-
     const currentSlide = slides[safeIndex] || slides[0];
-
     const isFirst = safeIndex === 0;
     const isLast = safeIndex === slides.length - 1;
     return (
         <>
             {!isFirst &&
                 (<Button text={""}
-                    onClick={() => {
-                        console.log("Назад");
-
-                    }}
-                    className={`${styles.overlayButton} ${styles.left}`}
-            />)}
+                         onClick={() => {
+                             console.log("Назад");
+                         }}
+                         className={`${styles.overlayButton} ${styles.left}`}
+                />)}
             {!isLast &&
                 (<Button text={""}
-                    onClick={() => {
-                        console.log("");
-                    }}
-                    className={`${styles.overlayButton} ${styles.right}`}
-            />)}
-            <Button text={"Закрыть"}
-                    onClick={() => {props.onClose()
-                    }}
+                         onClick={() => {
+                             console.log("");
+                         }}
+                         className={`${styles.overlayButton} ${styles.right}`}
+                />)}
+            <Button text={"✖"}
+                    onClick={() =>
+                        props.onClose()
+                    }
                     className={styles.close}
             />
             <div className={styles.overlayField}>
@@ -49,7 +46,7 @@ function PreviewOverlay(props: PreviewOverlayProps) {
                               mode={"overlay"}
                 />
             </div>
-       </>
+        </>
     )
 }
 
