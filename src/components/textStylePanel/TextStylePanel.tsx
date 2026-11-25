@@ -5,7 +5,6 @@ import {dispatch} from "../../modules/editor.ts";
 import styles from "./TextStylePanel.module.css";
 import {useEffect, useState} from "react";
 import type {TextObject} from "../../domain/types/object.ts";
-import {Button} from "../button/Button.tsx";
 
 function getTextStyleState(selectedTextObjects: TextObject[]) {
     const firstText = selectedTextObjects[0];
@@ -88,7 +87,6 @@ function TextStylePanel({slide, selectedObjectIds}: TextStylePanelProps) {
             }
         });
     };
-    const isColorChanged = draftColor !== fontColor;
     return (
         <div className={styles.textStylePanel}>
             <select
@@ -112,7 +110,7 @@ function TextStylePanel({slide, selectedObjectIds}: TextStylePanelProps) {
                     className={styles.numberInput}
                 />
             </div>
-            <div className={styles.colorGroup}>
+            <div className={styles.colorGroup} onBlur={applyFontColor}>
                 <span className={styles.colorLabel}>Цвет:</span>
                 <TextInput
                     type="color"
@@ -120,13 +118,6 @@ function TextStylePanel({slide, selectedObjectIds}: TextStylePanelProps) {
                     onChange={setDraftColor}
                     className={styles.colorInput}
                 />
-                {isColorChanged && (
-                    <Button
-                        text="OK"
-                        onClick={applyFontColor}
-                        className={styles.applyButton}
-                    />
-                )}
             </div>
         </div>
     );
