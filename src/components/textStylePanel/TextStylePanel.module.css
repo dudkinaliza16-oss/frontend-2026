@@ -1,0 +1,36 @@
+.textStylePanel {
+    display: flex;
+    gap: 8px;
+}
+
+.fontSelect {
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.inputGroup {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.colorGroup {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.colorLabel {
+    font-size: 12px;
+}
+
+.numberInput {
+    width: 50px;
+    text-align: center;
+    padding: 4px;
+}
+
+.colorInput {
+    border: none;
+    background: transparent;
+}
