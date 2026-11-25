@@ -32,16 +32,21 @@ function useSelection() {
     };
 
     const handlerSelect = (event: React.MouseEvent, id: string) => {
-        event.preventDefault();
-        if (!event.shiftKey && event.button === 0) {
-            setSelectedIds([id]);
-        } else {
-            if (selectedIds.includes(id) && event.button === 0) {
-                setSelectedIds(selectedIds.filter((item: string) => item !== id));
-            } else {
-                setSelectedIds([...selectedIds, id]);
-            }
+        if (event.button !== 0) {
+            return;
         }
+        event.preventDefault();
+        if (!event.shiftKey) {
+            setSelectedIds([id]);
+            return;
+        }
+        setSelectedIds((prevSelectedIds) => {
+            const isAlreadySelected = prevSelectedIds.includes(id);
+            if (isAlreadySelected) {
+                return prevSelectedIds.filter((item: string) => item !== id);
+            }
+            return [...prevSelectedIds, id];
+        });
     };
 
     return { selectedIds, handleSlideClick, handlerSelect };
