@@ -38,14 +38,11 @@
 
 .workspaceContent {
     transform: scale(1);
+    pointer-events: none;
 }
 
 .overlayContent {
     transform: scale(1.41);
-}
-
-.workspaceContent{
-    pointer-events: none;
 }
 
 .workspaceContent > *{

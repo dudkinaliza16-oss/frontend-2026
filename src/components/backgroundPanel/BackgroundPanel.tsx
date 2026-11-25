@@ -1,10 +1,10 @@
-import { Button } from "../button/Button.js";
+import {Button} from "../button/Button.js";
 import buttonStyles from '../button/Button.module.css';
-import type { Slide } from "../../domain/types/slide.ts";
-import { useSlideBackground } from "../../hooks/useSlideBackground.ts";
-import { useImageLoader } from "../../hooks/useImageLoader.ts";
-import { TextInput } from "../textInput/TextInput.tsx";
-import { dispatch } from "../../modules/editor.ts";
+import type {Slide} from "../../domain/types/slide.ts";
+import {useSlideBackground} from "../../hooks/useSlideBackground.ts";
+import {useImageLoader} from "../../hooks/useImageLoader.ts";
+import {TextInput} from "../textInput/TextInput.tsx";
+import {dispatch} from "../../modules/editor.ts";
 import {
     setSlideBackgroundColorModifier,
     setSlideBackgroundImageModifier,
@@ -16,8 +16,8 @@ type BackgroundPanelProps = {
     slide: Slide;
 };
 
-function BackgroundPanel({ slide }: BackgroundPanelProps) {
-    const { bgColorInput, changeBgColorInput, savedBgColor } = useSlideBackground(slide);
+function BackgroundPanel({slide}: BackgroundPanelProps) {
+    const {bgColorInput, changeBgColorInput, savedBgColor} = useSlideBackground(slide);
 
     const applyBgColor = (selectedColor: string) => {
         if (selectedColor !== savedBgColor) {
@@ -43,7 +43,7 @@ function BackgroundPanel({ slide }: BackgroundPanelProps) {
 
     return (
         <div className={styles.backgroundPanel}>
-            <div className="controlGroup">
+            <div>
                 <TextInput
                     type="color"
                     value={bgColorInput}
@@ -52,11 +52,11 @@ function BackgroundPanel({ slide }: BackgroundPanelProps) {
                 />
             </div>
 
-            <div className="controlGroup">
+            <div>
                 <input
                     ref={backgroundLoader.fileInputRef}
                     type="file"
-                    style={{ display: 'none' }}
+                    style={{display: 'none'}}
                     accept="image/*"
                     onChange={backgroundLoader.handleFileChange}
                 />
@@ -67,7 +67,7 @@ function BackgroundPanel({ slide }: BackgroundPanelProps) {
                 />
             </div>
 
-            <div className="controlGroup">
+            <div>
                 <Button
                     text="Clear background"
                     className={buttonStyles.button}
@@ -78,4 +78,4 @@ function BackgroundPanel({ slide }: BackgroundPanelProps) {
     );
 }
 
-export { BackgroundPanel };
+export {BackgroundPanel};
