@@ -9,7 +9,12 @@
     cursor: pointer;
 }
 
-.button:hover {
+.button:hover:not(:disabled) {
     background-color: #f2f5fa;
     border-color: #bdc9dc;
+}
+
+.button:disabled {
+    opacity: 0.45;
+    cursor: default;
 }
