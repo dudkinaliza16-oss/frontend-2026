@@ -8,6 +8,7 @@
 }
 
 .slideItem {
+    position: relative;
     display: flex;
     gap: 8px;
     padding: 8px;
@@ -26,4 +27,37 @@
     font-size: 12px;
     font-weight: 600;
     line-height: 1.4;
+}
+
+.contextMenu {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    bottom: 8px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    padding: 6px;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.menuButton {
+    width: 100%;
+    padding: 4px 8px;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: left;
+    color: #52617c;
+    background-color: #f7f8fc;
+    border: 1px solid #dce3f0;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.deleteButton {
+    color: #cf222e;
+    border-color: rgba(207, 34, 46, 0.25);
+    background-color: #fff5f5;
 }
