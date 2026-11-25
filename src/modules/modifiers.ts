@@ -2,12 +2,15 @@ import {
     addSlideObject,
     moveSlideObject,
     removeSlideObject,
-    updateTextObjectContent, updateTextObjectStyle
+    updateTextObjectContent,
+    updateTextObjectStyle,
+    resizeSlideObject
 } from "../domain/functions/object.ts";
 import type {StateEdit} from "./editor.ts";
 import {generateId} from "../domain/functions/utils.ts";
-import {addSlide} from "../domain/functions/slide.ts";
-import type {Font, Point, SlideObject} from "../domain/types/object.ts";
+import {addSlide, duplicateSlide} from "../domain/functions/slide.ts";
+import type {Font, Point, Size, SlideObject} from "../domain/types/object.ts";
+import type {Slide} from "../domain/types/slide.ts";
 
 function removeSelectedObjectsModifier(
     stateEdit: StateEdit,
@@ -74,12 +77,12 @@ function updatePresentationNameModifier(stateEdit: StateEdit, newName: string) {
     }
 }
 
-function addSlideModifier(stateEdit: StateEdit): StateEdit {
+function addSlideModifier(stateEdit: StateEdit, params?: {newIndex?: number}): StateEdit {
     if (!stateEdit.presentation) {
         return stateEdit;
     }
     const newSlideId = generateId();
-    const updatedPresentation = addSlide(stateEdit.presentation, newSlideId);
+    const updatedPresentation = addSlide(stateEdit.presentation, newSlideId, params?.newIndex);
     return {
         ...stateEdit,
         presentation: updatedPresentation,
@@ -137,7 +140,7 @@ function moveSlideObjectModifier(
 
 function updateTextObjectContentModifier(
     stateEdit: StateEdit,
-    params: { objectId: string, newContent: string}){
+    params: { objectId: string, newContent: string }): StateEdit {
     const {objectId, newContent} = params;
     if (!stateEdit.presentation || !stateEdit.activeSlideId) {
         return stateEdit;
@@ -162,7 +165,7 @@ function updateTextObjectContentModifier(
 
 function updateTextObjectStyleModifier(
     stateEdit: StateEdit,
-    params: { objectId: string, newFont: Font}){
+    params: { objectId: string, newFont: Font }) {
     const {objectId, newFont} = params;
     if (!stateEdit.presentation || !stateEdit.activeSlideId) {
         return stateEdit;
@@ -182,8 +185,188 @@ function updateTextObjectStyleModifier(
             slides: newSlides
         }
     };
-
 }
+
+function setSlideBackgroundColorModifier(
+    stateEdit: StateEdit,
+    params: { slideId: string; color: string }
+): StateEdit {
+    const {slideId, color} = params;
+    if (!stateEdit.presentation) {
+        return stateEdit;
+    }
+    const slideIndex = stateEdit.presentation.slides.findIndex(slide => slide.id === slideId);
+    if (slideIndex === -1) {
+        return stateEdit;
+    }
+    const slide = stateEdit.presentation.slides[slideIndex];
+    const updatedSlide: Slide = {
+        ...slide,
+        background: {
+            type: 'color',
+            color: color,
+            opacity: 1
+        }
+    };
+    const newSlides = [...stateEdit.presentation.slides];
+    newSlides[slideIndex] = updatedSlide;
+    return {
+        ...stateEdit,
+        presentation: {
+            ...stateEdit.presentation,
+            slides: newSlides
+        }
+    };
+}
+
+function setSlideBackgroundImageModifier(
+    stateEdit: StateEdit,
+    params: { slideId: string; src: string }
+): StateEdit {
+    const {slideId, src} = params;
+    if (!stateEdit.presentation) {
+        return stateEdit;
+    }
+    const slideIndex = stateEdit.presentation.slides.findIndex(slide => slide.id === slideId);
+    if (slideIndex === -1) {
+        return stateEdit;
+    }
+    const slide = stateEdit.presentation.slides[slideIndex];
+    const updatedSlide: Slide = {
+        ...slide,
+        background: {
+            type: 'image',
+            imageUrl: src
+        }
+    };
+    const newSlides = [...stateEdit.presentation.slides];
+    newSlides[slideIndex] = updatedSlide;
+    return {
+        ...stateEdit,
+        presentation: {
+            ...stateEdit.presentation,
+            slides: newSlides
+        }
+    };
+}
+
+function clearSlideBackgroundModifier(
+    stateEdit: StateEdit,
+    params: { slideId: string }
+): StateEdit {
+    const {slideId} = params;
+    if (!stateEdit.presentation) {
+        return stateEdit;
+    }
+    const slideIndex = stateEdit.presentation.slides.findIndex(slide => slide.id === slideId);
+    if (slideIndex === -1) {
+        return stateEdit;
+    }
+    const slide = stateEdit.presentation.slides[slideIndex];
+    const updatedSlide: Slide = {
+        ...slide,
+        background: {
+            type: 'none'
+        }
+    };
+    const newSlides = [...stateEdit.presentation.slides];
+    newSlides[slideIndex] = updatedSlide;
+    return {
+        ...stateEdit,
+        presentation: {
+            ...stateEdit.presentation,
+            slides: newSlides
+        }
+    };
+}
+
+function addImageObjectModifier(
+    stateEdit: StateEdit,
+    params: { slideId: string; src: string }
+): StateEdit {
+    const {slideId, src} = params;
+    if (!stateEdit.presentation) {
+        return stateEdit;
+    }
+    const slideIndex = stateEdit.presentation.slides.findIndex(slide => slide.id === slideId);
+    if (slideIndex === -1) {
+        return stateEdit;
+    }
+    const slide = stateEdit.presentation.slides[slideIndex];
+    const newImageObject: SlideObject = {
+        type: "image",
+        id: generateId(),
+        location: {
+            x: 200,
+            y: 150
+        },
+        size: {
+            width: 300,
+            height: 200
+        },
+        opacity: 1,
+        imageUrl: src,
+        rotation: 0,
+    };
+    const updatedSlide = addSlideObject(slide, newImageObject);
+    const newSlides = [...stateEdit.presentation.slides];
+    newSlides[slideIndex] = updatedSlide;
+    return {
+        ...stateEdit,
+        presentation: {
+            ...stateEdit.presentation,
+            slides: newSlides,
+        },
+    };
+}
+
+function resizeSlideObjectModifier(stateEdit: StateEdit, params: { objectId: string; newSize: Size; newLocation: Point}): StateEdit {
+    const {objectId, newSize, newLocation} = params;
+    if (!stateEdit.presentation || !stateEdit.activeSlideId) {
+        return stateEdit;
+    }
+    const slideIndex = stateEdit.presentation.slides.findIndex(slide => slide.id === stateEdit.activeSlideId);
+    if (slideIndex === -1) {
+        return stateEdit;
+    }
+    let slide = stateEdit.presentation.slides[slideIndex];
+    slide = resizeSlideObject(slide, objectId, newSize);
+    slide = moveSlideObject(slide, objectId, newLocation);
+    const newSlides = [...stateEdit.presentation.slides];
+    newSlides[slideIndex] = slide;
+    return {
+        ...stateEdit,
+        presentation: {
+            ...stateEdit.presentation,
+            slides: newSlides
+        }
+    };
+}
+
+function duplicateSlideModifier(
+    stateEdit: StateEdit,
+    slideId: string
+): StateEdit {
+    if (!stateEdit.presentation) {
+        return stateEdit;
+    }
+
+    const newSlideId = generateId();
+    const updatedPresentation = duplicateSlide(
+        stateEdit.presentation,
+        slideId,
+        newSlideId
+    );
+    return {
+        ...stateEdit,
+        presentation: updatedPresentation,
+        activeSlideId: newSlideId,
+    };
+}
+
+//function addTextObjectModifier() {
+//
+//}
 
 export {
     removeSelectedObjectsModifier,
@@ -193,5 +376,12 @@ export {
     addSlideObjectModifier,
     moveSlideObjectModifier,
     updateTextObjectContentModifier,
-    updateTextObjectStyleModifier
-}
+    updateTextObjectStyleModifier,
+    setSlideBackgroundColorModifier,
+    setSlideBackgroundImageModifier,
+    clearSlideBackgroundModifier,
+    addImageObjectModifier,
+    resizeSlideObjectModifier,
+    duplicateSlideModifier,
+    //addTextObjectModifier,
+};
