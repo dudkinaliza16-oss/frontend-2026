@@ -17,9 +17,22 @@ function useHistoryUI(): HistoryUI {
             setCanUndo(getCanUndo());
             setCanRedo(getCanRedo());
         };
-        addEditorChangeHandler(sync);
-        return () => {
+        sync();
+        return addEditorChangeHandler(sync);
+    }, []);
+
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if ((event.ctrlKey || event.metaKey) && event.code === 'KeyZ') {
+                event.preventDefault();
+                undo();
+            } else if ((event.ctrlKey || event.metaKey) && event.code === 'KeyY') {
+                event.preventDefault();
+                redo();
+            }
         };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
     }, []);
 
     const onUndo = useCallback(() => {
