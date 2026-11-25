@@ -14,16 +14,32 @@ type StateEdit = {
 let stateEdit: StateEdit = {
     presentation: null,
     activeSlideId: null,
-    isPreviewMode: false
+    isPreviewMode: false,
 };
+
 let past: StateEdit[] = [];
 let future: StateEdit[] = [];
+let listeners = new Array<() => void>();
+
+function notifyChange(): void {
+    listeners.forEach((listener) => listener());
+}
+
+function addEditorChangeHandler(handler: () => void): () => void {
+    if (!listeners.includes(handler)) {
+        listeners.push(handler);
+    }
+    return () => {
+        listeners = listeners.filter((item) => item !== handler);
+    };
+}
 
 function setPreviewMode(mode: boolean): void {
-    stateEdit.isPreviewMode = mode;
-    if (editorChangeHandler) {
-        editorChangeHandler();
-    }
+    stateEdit = {
+        ...stateEdit,
+        isPreviewMode: mode,
+    };
+    notifyChange();
 }
 
 function getPreviewMode(): boolean {
@@ -31,8 +47,11 @@ function getPreviewMode(): boolean {
 }
 
 function setInitialState(presentation: Presentation): void {
-    stateEdit.presentation = presentation;
-    stateEdit.activeSlideId = presentation.slides[0]?.id ?? null;
+    stateEdit = {
+        presentation,
+        activeSlideId: presentation.slides[0]?.id ?? null,
+        isPreviewMode: false,
+    };
     past = [];
     future = [];
 }
@@ -44,11 +63,12 @@ function getHistoryState(): { canUndo: boolean; canRedo: boolean } {
     };
 }
 
-function setActiveSlideId(id: string | null) {
-    stateEdit.activeSlideId = id;
-    if (editorChangeHandler) {
-        editorChangeHandler();
-    }
+function setActiveSlideId(id: string | null): void {
+    stateEdit = {
+        ...stateEdit,
+        activeSlideId: id,
+    };
+    notifyChange();
 }
 
 function getPresentationState(): Presentation | null {
@@ -59,16 +79,6 @@ function getActiveSlideId(): string | null {
     return stateEdit.activeSlideId;
 }
 
-let editorChangeHandler: (() => void) | null = null;
-
-function addEditorChangeHandler(handler: () => void): void {
-    const prevHandler = editorChangeHandler;
-    editorChangeHandler = () => {
-        prevHandler?.();
-        handler();
-    };
-}
-
 function dispatch<P>(
     modifier: Modifier<P>,
     params: P
@@ -77,42 +87,40 @@ function dispatch<P>(
         console.error('State is not initialized! Call setInitialState first.');
         return;
     }
+
     past = [...past, stateEdit];
     future = [];
-    stateEdit = modifier(
-        stateEdit,
-        params
-    );
-    if (editorChangeHandler) {
-        editorChangeHandler();
-    }
+    stateEdit = modifier(stateEdit, params);
+    notifyChange();
 }
 
 function undo(): void {
     if (past.length === 0 || !stateEdit.presentation) return;
+
     future = [stateEdit, ...future];
     const previous = past[past.length - 1];
     past = past.slice(0, -1);
     stateEdit = previous;
-    if (editorChangeHandler) {
-        editorChangeHandler();
-    }
+    notifyChange();
 }
 
 function redo(): void {
     if (future.length === 0 || !stateEdit.presentation) return;
+
     past = [...past, stateEdit];
     const next = future[0];
     future = future.slice(1);
     stateEdit = next;
-    if (editorChangeHandler) {
-        editorChangeHandler();
-    }
+    notifyChange();
 }
 
-function getCanUndo(): boolean { return past.length > 0; }
+function getCanUndo(): boolean {
+    return past.length > 0;
+}
 
-function getCanRedo(): boolean { return future.length > 0; }
+function getCanRedo(): boolean {
+    return future.length > 0;
+}
 
 export {
     setPreviewMode,
