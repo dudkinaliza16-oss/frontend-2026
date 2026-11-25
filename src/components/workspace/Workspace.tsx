@@ -1,6 +1,6 @@
-import type { Presentation } from "../../domain/types/presentation.ts";
-import { SlideProperties } from "../slideProperties/SlideProperties.tsx";
-import { SlidePreview } from "../slidePreview/SlidePreview.tsx";
+import type {Presentation} from "../../domain/types/presentation.ts";
+import {SlideProperties} from "../slideProperties/SlideProperties.tsx";
+import {SlidePreview} from "../slidePreview/SlidePreview.tsx";
 import styles from "./Workspace.module.css";
 import {getActiveSlideId} from "../../modules/editor.ts";
 import {useSelection} from "../../hooks/useSelection.ts";
@@ -8,9 +8,10 @@ import {useSelection} from "../../hooks/useSelection.ts";
 type WorkspaceProps = {
     presentation: Presentation;
 }
+
 function Workspace(props: WorkspaceProps) {
     const activeSlideId = getActiveSlideId();
-    const  {selectedIds, handleSlideClick, handlerSelect} = useSelection();
+    const {selectedIds, handleSlideClick, handlerSelect} = useSelection();
     const activeSlide = props.presentation.slides.find(
         slide => slide.id === activeSlideId
     );
@@ -27,7 +28,10 @@ function Workspace(props: WorkspaceProps) {
             {activeSlide && (
                 <>
                     <div className={styles.propertiesPanel}>
-                        <SlideProperties />
+                        <SlideProperties
+                            slide={activeSlide}
+                            selectedObjectIds={selectedIds}
+                        />
                     </div>
                     <div className={styles.slideArea}>
                         <SlidePreview
@@ -43,6 +47,7 @@ function Workspace(props: WorkspaceProps) {
         </div>
     );
 }
+
 export {
     Workspace
 };

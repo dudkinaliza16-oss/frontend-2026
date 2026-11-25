@@ -1,24 +1,66 @@
-.textObject {
+.slideObjectContainer {
     position: absolute;
-    background: transparent;
-    overflow: hidden;
-    outline: none;
-    border-color: transparent;
-}
-
-.imageObject {
-    position: absolute;
-    display: block;
-    object-fit: contain;
-}
-
-.thumbnailObject,
-.overlayObject{
-    pointer-events: none;
+    box-sizing: border-box;
 }
 
 .selected {
     outline: 2px solid #3b82f6;
-    outline-offset: 2px;
     z-index: 10;
+}
+
+.textObject {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    overflow: visible;
+    outline: none;
+    border: none;
+    box-sizing: border-box;
+    resize: none;
+}
+
+.imageObject {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+}
+
+.thumbnailObject,
+.overlayObject {
+    pointer-events: none;
+}
+
+.handle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #ffffff;
+    border: 1px solid #3b82f6;
+    box-sizing: border-box;
+    z-index: 20;
+}
+
+.handleTL {
+    top: -5px;
+    left: -5px;
+    cursor: nwse-resize !important;
+}
+
+.handleTR {
+    top: -5px;
+    right: -5px;
+    cursor: nesw-resize!important;
+}
+
+.handleBL {
+    bottom: -5px;
+    left: -5px;
+    cursor: nesw-resize!important;
+}
+
+.handleBR {
+    bottom: -5px;
+    right: -5px;
+    cursor: nwse-resize!important;
 }
