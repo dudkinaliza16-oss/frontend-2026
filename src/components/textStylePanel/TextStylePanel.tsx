@@ -1,12 +1,20 @@
+import {useEffect, useState} from "react";
 import type {Slide} from "../../domain/types/slide.ts";
+import type {TextObject} from "../../domain/types/object.ts";
 import {TextInput} from "../textInput/TextInput.tsx";
 import {updateTextObjectStyleModifier} from "../../modules/modifiers.ts";
 import {dispatch} from "../../modules/editor.ts";
 import styles from "./TextStylePanel.module.css";
-import {useEffect, useState} from "react";
-import type {TextObject} from "../../domain/types/object.ts";
 
 function getTextStyleState(selectedTextObjects: TextObject[]) {
+    if (selectedTextObjects.length === 0) {
+        return {
+            fontFamily: "",
+            fontSizeValue: "",
+            fontColor: "#000000",
+        };
+    }
+
     const firstText = selectedTextObjects[0];
     let hasMixedFamily = false;
     let hasMixedSize = false;
@@ -42,31 +50,53 @@ type TextStylePanelProps = {
 };
 
 function TextStylePanel({slide, selectedObjectIds}: TextStylePanelProps) {
-    const selectedTextObjects = (slide.objects.filter(
-        (obj) => selectedObjectIds.includes(obj.id) && obj.type === "text"
-    ) || []) as TextObject[];
+    const selectedTextObjects = slide.objects.filter(
+        (obj): obj is TextObject =>
+            selectedObjectIds.includes(obj.id) && obj.type === "text"
+    );
+
+    const styleState = getTextStyleState(selectedTextObjects);
+
+    const [fontFamily, setFontFamily] = useState<string>(styleState.fontFamily);
+    const [fontSize, setFontSize] = useState<string>(styleState.fontSizeValue);
+    const [draftColor, setDraftColor] = useState<string>(styleState.fontColor);
+
+    useEffect(() => {
+        setFontFamily(styleState.fontFamily);
+        setFontSize(styleState.fontSizeValue);
+        setDraftColor(styleState.fontColor);
+    }, [
+        selectedObjectIds,
+        styleState.fontFamily,
+        styleState.fontSizeValue,
+        styleState.fontColor,
+    ]);
 
     if (selectedTextObjects.length === 0) {
         return null;
     }
-    const {fontFamily, fontSizeValue, fontColor} = getTextStyleState(selectedTextObjects);
-    const [draftColor, setDraftColor] = useState<string>(fontColor);
-    useEffect(() => {
-        setDraftColor(fontColor);
-    }, [selectedObjectIds.join(","), fontColor]);
+
     const applyFontFamily = (newFamily: string) => {
-        if (!newFamily) {
-            return;
-        }
+        setFontFamily(newFamily);
         selectedTextObjects.forEach((textObj) => {
-            dispatch(updateTextObjectStyleModifier, {
-                objectId: textObj.id,
-                newFont: {...textObj.font, family: newFamily},
-            });
+            if (textObj.font.family !== newFamily) {
+                dispatch(updateTextObjectStyleModifier, {
+                    objectId: textObj.id,
+                    newFont: {...textObj.font, family: newFamily},
+                });
+            }
         });
     };
+
     const applyFontSize = (inputValue: string) => {
+        setFontSize(inputValue);
+        if (inputValue.trim() === "") {
+            return;
+        }
         const parsed = Number(inputValue);
+        if (Number.isNaN(parsed)) {
+            return;
+        }
         const clampedSize = Math.max(8, Math.min(200, parsed));
         selectedTextObjects.forEach((textObj) => {
             if (clampedSize !== textObj.font.size) {
@@ -79,14 +109,15 @@ function TextStylePanel({slide, selectedObjectIds}: TextStylePanelProps) {
     };
     const applyFontColor = () => {
         selectedTextObjects.forEach((textObj) => {
-            if (draftColor !== textObj?.font.color) {
+            if (draftColor !== textObj.font.color) {
                 dispatch(updateTextObjectStyleModifier, {
                     objectId: textObj.id,
-                    newFont: {...textObj?.font, color: draftColor},
+                    newFont: {...textObj.font, color: draftColor},
                 });
             }
         });
     };
+
     return (
         <div className={styles.textStylePanel}>
             <select
@@ -105,7 +136,7 @@ function TextStylePanel({slide, selectedObjectIds}: TextStylePanelProps) {
             <div className={styles.inputGroup}>
                 <TextInput
                     type="number"
-                    value={fontSizeValue}
+                    value={fontSize}
                     onChange={applyFontSize}
                     className={styles.numberInput}
                 />
