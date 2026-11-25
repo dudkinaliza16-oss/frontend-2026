@@ -1,5 +1,6 @@
 import type {Slide, Background} from "../types/slide.ts";
 import type {Presentation} from "../types/presentation.ts";
+import {generateId} from "./utils.ts";
 
 const DEFAULT_VALUE: number = 0;
 
@@ -15,20 +16,20 @@ function addSlide(presentation: Presentation,
                   id: string,
                   newIndex: number = -1): Presentation {
     const newSlide = createDefaultSlide(id);
-    if (newIndex <= 0 || newIndex > presentation.slides.length + 1) {
+    const slides = presentation.slides;
+
+    if (newIndex < 0 || newIndex >= slides.length) {
         return {
             ...presentation,
-            slides: [...presentation.slides, newSlide],
+            slides: [...slides, newSlide],
         };
     }
-    const targetIndex = newIndex - 1;
-
     return {
         ...presentation,
         slides: [
-            ...presentation.slides.slice(0, targetIndex),
+            ...slides.slice(0, newIndex),
             newSlide,
-            ...presentation.slides.slice(targetIndex),
+            ...slides.slice(newIndex),
         ],
     };
 }
@@ -67,16 +68,31 @@ function duplicateSlide(
     slideId: string,
     newId: string
 ): Presentation {
-    const slideIndex = presentation.slides.findIndex(slide => slide.id === slideId);
+    const slideIndex = presentation.slides.findIndex((slide) => slide.id === slideId);
     if (slideIndex === -1) {
-        return { ...presentation };
+        return presentation;
     }
 
-    return addSlide(
-        presentation,
-        newId,
-        slideIndex + 2
-    );
+    const sourceSlide = presentation.slides[slideIndex];
+    const clonedSlide: Slide = {
+        ...structuredClone(sourceSlide),
+        id: newId,
+        objects: sourceSlide.objects.map((obj) => ({
+            ...structuredClone(obj),
+            id: generateId(),
+        })),
+    };
+
+    const insertIndex = slideIndex + 1;
+
+    return {
+        ...presentation,
+        slides: [
+            ...presentation.slides.slice(0, insertIndex),
+            clonedSlide,
+            ...presentation.slides.slice(insertIndex),
+        ],
+    };
 }
 
 function modifyBackground(slide: Slide,
