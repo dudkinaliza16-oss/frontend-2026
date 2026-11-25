@@ -1,3 +1,4 @@
+import {useHistoryUI} from '../../hooks/useHistoryUI.js';
 import {Toolbar} from '../toolbar/Toolbar.js';
 import {SlideList} from "../slideList/SlideList.js";
 import {Workspace} from "../workspace/Workspace.js";
@@ -7,9 +8,8 @@ import {getPresentationState, getPreviewMode, setPreviewMode} from "../../module
 
 function App() {
     const presentation = getPresentationState();
-    if (!presentation) {
-        return null;
-    }
+    const {canUndo, canRedo, onUndo, onRedo} = useHistoryUI();
+    if (!presentation) return <div>Загрузка...</div>;
     if (getPreviewMode()) {
         return (
             <PreviewOverlay
@@ -21,7 +21,13 @@ function App() {
     return (
         <div
             className={styles.mainContainer}>
-            <Toolbar presentation={presentation}/>
+            <Toolbar
+                presentation={presentation}
+                canUndo={canUndo}
+                canRedo={canRedo}
+                onUndo={onUndo}
+                onRedo={onRedo}
+            />
             <div className={styles.editorField}>
                 <SlideList presentation={presentation}/>
                 <Workspace presentation={presentation}/>

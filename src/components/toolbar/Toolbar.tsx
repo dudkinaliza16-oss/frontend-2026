@@ -11,6 +11,11 @@ import {
 
 type ToolbarProps = {
     presentation: Presentation;
+    canUndo: boolean;
+    canRedo: boolean;
+    onUndo: () => void;
+    onRedo: () => void;
+
 };
 
 function Toolbar(props: ToolbarProps) {
@@ -19,7 +24,7 @@ function Toolbar(props: ToolbarProps) {
             <div>
                 <TextInput
                     value={props.presentation.name}
-                    placeholder="Название презентации"
+                    placeholder="Presentation name"
                     className={styles.presentationName}
                     onChange={(name) => {
                         dispatch(updatePresentationNameModifier, name);
@@ -31,12 +36,14 @@ function Toolbar(props: ToolbarProps) {
                 <Button
                     text="↩unDo"
                     className={buttonStyles.button}
-                    onClick={() => console.log('save')}
+                    onClick={props.onUndo}
+                    disabled={!props.canUndo}
                 />
                 <Button
                     text="↪reDo"
                     className={buttonStyles.button}
-                    onClick={() => console.log('save')}
+                    onClick={props.onRedo}
+                    disabled={!props.canRedo}
                 />
                 <Button
                     text="Add Slide"

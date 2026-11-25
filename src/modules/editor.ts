@@ -16,8 +16,8 @@ let stateEdit: StateEdit = {
     activeSlideId: null,
     isPreviewMode: false
 };
-
-let editorChangeHandler: (() => void) | null = null;
+let past: StateEdit[] = [];
+let future: StateEdit[] = [];
 
 function setPreviewMode(mode: boolean): void {
     stateEdit.isPreviewMode = mode;
@@ -33,6 +33,15 @@ function getPreviewMode(): boolean {
 function setInitialState(presentation: Presentation): void {
     stateEdit.presentation = presentation;
     stateEdit.activeSlideId = presentation.slides[0]?.id ?? null;
+    past = [];
+    future = [];
+}
+
+function getHistoryState(): { canUndo: boolean; canRedo: boolean } {
+    return {
+        canUndo: past.length > 0,
+        canRedo: future.length > 0,
+    };
 }
 
 function setActiveSlideId(id: string | null) {
@@ -50,18 +59,26 @@ function getActiveSlideId(): string | null {
     return stateEdit.activeSlideId;
 }
 
+let editorChangeHandler: (() => void) | null = null;
+
 function addEditorChangeHandler(handler: () => void): void {
-    editorChangeHandler = handler;
+    const prevHandler = editorChangeHandler;
+    editorChangeHandler = () => {
+        prevHandler?.();
+        handler();
+    };
 }
 
 function dispatch<P>(
     modifier: Modifier<P>,
     params: P
-):void {
+): void {
     if (!stateEdit.presentation) {
         console.error('State is not initialized! Call setInitialState first.');
         return;
     }
+    past = [...past, stateEdit];
+    future = [];
     stateEdit = modifier(
         stateEdit,
         params
@@ -71,14 +88,45 @@ function dispatch<P>(
     }
 }
 
+function undo(): void {
+    if (past.length === 0 || !stateEdit.presentation) return;
+    future = [stateEdit, ...future];
+    const previous = past[past.length - 1];
+    past = past.slice(0, -1);
+    stateEdit = previous;
+    if (editorChangeHandler) {
+        editorChangeHandler();
+    }
+}
+
+function redo(): void {
+    if (future.length === 0 || !stateEdit.presentation) return;
+    past = [...past, stateEdit];
+    const next = future[0];
+    future = future.slice(1);
+    stateEdit = next;
+    if (editorChangeHandler) {
+        editorChangeHandler();
+    }
+}
+
+function getCanUndo(): boolean { return past.length > 0; }
+
+function getCanRedo(): boolean { return future.length > 0; }
+
 export {
     setPreviewMode,
     getPreviewMode,
     setInitialState,
+    getHistoryState,
     getPresentationState,
     getActiveSlideId,
     addEditorChangeHandler,
     setActiveSlideId,
     dispatch,
+    undo,
+    redo,
+    getCanUndo,
+    getCanRedo,
     type StateEdit,
 };

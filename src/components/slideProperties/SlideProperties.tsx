@@ -1,34 +1,63 @@
-//import type { Slide } from "../domain/types/slide.ts";
-import {Button} from "../button/Button.js";
+import { Button } from "../button/Button.js";
 import styles from "./SlideProperties.module.css";
 import buttonStyles from '../button/Button.module.css';
+import { dispatch } from "../../modules/editor.ts";
+import { addImageObjectModifier } from "../../modules/modifiers.ts";
+import type { Slide } from "../../domain/types/slide.ts";
+import { useImageLoader } from "../../hooks/useImageLoader.ts";
+import { TextStylePanel } from "../textStylePanel/TextStylePanel.tsx";
+import { BackgroundPanel } from "../backgroundPanel/BackgroundPanel.tsx";
 
-//type SlidePropertiesProps = {
-//    slide: Slide;
-//};
+type SlidePropertiesProps = {
+    slide: Slide;
+    selectedObjectIds: string[];
+};
 
-function SlideProperties() {
+function SlideProperties(props: SlidePropertiesProps) {
+    const hasSelectedObjects = (props.selectedObjectIds?.length ?? 0) > 0;
+    const isBgPanelVisible = !hasSelectedObjects;
+
+    const imgObjLoader = useImageLoader((src) => {
+        dispatch(addImageObjectModifier, {
+            slideId: props.slide.id,
+            src: src
+        });
+    });
+
     return (
         <div className={styles.properties}>
             <div className={styles.actions}>
                 <Button
-                    text="+ Текст"
+                    text="+Text"
                     className={buttonStyles.button}
                     onClick={() => console.log("add text")}
                 />
-                <Button
-                    text="+ Изображение"
-                    className={buttonStyles.button}
-                    onClick={() => console.log("add image")}
+                <>
+                    <input
+                        ref={imgObjLoader.fileInputRef}
+                        type="file"
+                        style={{ display: 'none' }}
+                        accept="image/*"
+                        onChange={imgObjLoader.handleFileChange}
+                    />
+                    <Button
+                        text="+Image"
+                        className={buttonStyles.button}
+                        onClick={() => imgObjLoader.openFilePicker()}
+                    />
+                </>
+                <TextStylePanel
+                    slide={props.slide}
+                    selectedObjectIds={props.selectedObjectIds}
                 />
-                <Button
-                    text="Фон"
-                    className={buttonStyles.button}
-                    onClick={() => console.log("change background")}
-                />
+                {isBgPanelVisible && (
+                    <BackgroundPanel
+                        slide={props.slide}
+                    />
+                )}
             </div>
         </div>
     );
 }
 
-export {SlideProperties};
+export { SlideProperties };

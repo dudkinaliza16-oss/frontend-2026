@@ -1,15 +1,44 @@
 .properties {
     display: flex;
-    justify-content: space-between;
-    gap: 16px;
-}
-
-.slideInfo {
-    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px;
+    background-color: #ffffff;
 }
 
 .actions {
     display: flex;
-    gap: 8px;
+    gap: 6px;
+    align-items: center;
 }
 
+.buttonWrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.backgroundPanel {
+    position: absolute;
+    top: 0;
+    left: calc(100% + 6px);
+    background-color: #ffffff;
+    display: flex;
+    gap: 10px;
+    white-space: nowrap;
+}
+
+.controlGroup {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+}
+
+.controlGroup input[type="color"] {
+    width: 28px;
+    height: 22px;
+    border: 1px solid #cccccc;
+    background-color: #ffffff;
+    cursor: pointer;
+    padding: 0;
+}

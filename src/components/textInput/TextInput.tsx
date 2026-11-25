@@ -3,6 +3,7 @@ type TextInputProps = {
     placeholder?: string;
     type?: 'text' | 'color' | 'number';
     onChange?: (value: string) => void;
+    onBlur?: (value: string) => void;
     className?: string;
     style?: React.CSSProperties;
 };
@@ -15,6 +16,7 @@ function TextInput(props: TextInputProps) {
             type={props.type}
             className={props.className}
             onChange={(event) => props.onChange?.(event.target.value)}
+            onBlur={(event) => props.onBlur?.(event.target.value)}
             style={props.style}
         />
     );
