@@ -44,22 +44,12 @@ function SlidePreview(props: SlidePreviewProps) {
     });
 
     const { dragging, offset, handleMouseDown } = useDragAndDrop((delta) => {
-        if (delta.x === 0 && delta.y === 0) {
+        if (selectedIdsRef.current.length === 0) {
             return;
         }
-        const currentSelectedIds = selectedIdsRef.current;
-        const currentObjects = slideObjectsRef.current;
-
-        currentSelectedIds.forEach((id) => {
-            const obj = currentObjects.find((object) => object.id === id);
-            if (!obj) return;
-            dispatch(moveSlideObjectModifier, {
-                objectId: id,
-                newLocation: {
-                    x: obj.location.x + delta.x,
-                    y: obj.location.y + delta.y,
-                },
-            });
+        dispatch(moveSlideObjectModifier, {
+            objectIds: selectedIdsRef.current,
+            delta,
         });
     });
 

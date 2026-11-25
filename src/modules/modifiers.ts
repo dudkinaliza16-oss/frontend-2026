@@ -115,18 +115,29 @@ function addSlideObjectModifier(stateEdit: StateEdit, object: SlideObject): Stat
 
 function moveSlideObjectModifier(
     stateEdit: StateEdit,
-    params: { objectId: string; newLocation: Point }
-) {
-    const {objectId, newLocation} = params;
-    if (!stateEdit.presentation || !stateEdit.activeSlideId) {
+    params: { objectIds: string[]; delta: Point }
+): StateEdit {
+    const { objectIds, delta } = params;
+    if (!stateEdit.presentation || !stateEdit.activeSlideId || objectIds.length === 0) {
         return stateEdit;
     }
     const slideIndex = stateEdit.presentation.slides.findIndex(slide => slide.id === stateEdit.activeSlideId);
     if (slideIndex === -1) {
         return stateEdit;
     }
+
     let slide = stateEdit.presentation.slides[slideIndex];
-    slide = moveSlideObject(slide, objectId, newLocation);
+    for (const id of objectIds) {
+        const target = slide.objects.find(obj => obj.id === id);
+        if (!target) {
+            continue;
+        }
+        slide = moveSlideObject(slide, id, {
+            x: target.location.x + delta.x,
+            y: target.location.y + delta.y,
+        });
+    }
+
     const newSlides = [...stateEdit.presentation.slides];
     newSlides[slideIndex] = slide;
     return {
