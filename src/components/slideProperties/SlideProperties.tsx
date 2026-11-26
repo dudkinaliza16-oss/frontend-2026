@@ -12,6 +12,7 @@ import {useEffect, useState} from "react";
 type SlidePropertiesProps = {
     slide: Slide;
     selectedObjectIds: string[];
+    onPreviewBackgroundColorChange: (color: string | null) => void;
 };
 
 function SlideProperties(props: SlidePropertiesProps) {

@@ -12,6 +12,7 @@ type SlidePreviewProps = {
     slide: Slide;
     mode: "thumbnail" | "workspace" | "overlay";
     selectedIds?: string[];
+    previewBackgroundColor?: string | null;
     onObjectClick?: (event: React.MouseEvent, objectId: string) => void;
     onSlideClick?: (event: React.MouseEvent) => void;
 };
@@ -119,11 +120,17 @@ function SlidePreview(props: SlidePreviewProps) {
     }
 
     const backgroundStyle = getBackgroundStyle(props.slide.background);
+    const liveBackgroundStyle = props.previewBackgroundColor
+        ? {
+            ...backgroundStyle,
+            backgroundColor: props.previewBackgroundColor,
+        }
+        : backgroundStyle;
 
     return (
         <div
             className={previewClass}
-            style={{ ...backgroundStyle, userSelect: "none" }}
+            style={{ ...liveBackgroundStyle}}
             onClick={(event) => {
                 if (props.mode === "thumbnail") {
                     props.onSlideClick?.(event);

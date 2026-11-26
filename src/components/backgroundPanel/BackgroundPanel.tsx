@@ -1,3 +1,4 @@
+import {useEffect, useRef} from "react";
 import {Button} from "../button/Button.js";
 import buttonStyles from '../button/Button.module.css';
 import type {Slide} from "../../domain/types/slide.ts";
@@ -6,27 +7,28 @@ import {useImageLoader} from "../../hooks/useImageLoader.ts";
 import {TextInput} from "../textInput/TextInput.tsx";
 import {dispatch} from "../../modules/editor.ts";
 import {
-    setSlideBackgroundColorModifier,
     setSlideBackgroundImageModifier,
     clearSlideBackgroundModifier,
 } from "../../modules/modifiers.ts";
-import styles from "./BackgroundPanel.module.css"
+import styles from "./BackgroundPanel.module.css";
 
 type BackgroundPanelProps = {
     slide: Slide;
+    onPreviewBackgroundColorChange?: (color: string | null) => void;
 };
 
-function BackgroundPanel({slide}: BackgroundPanelProps) {
-    const {bgColorInput, changeBgColorInput, savedBgColor} = useSlideBackground(slide);
+function BackgroundPanel({slide, onPreviewBackgroundColorChange}: BackgroundPanelProps) {
+    const {bgColorInput, changeBgColorInput, applyBgColor} = useSlideBackground(slide);
 
-    const applyBgColor = (selectedColor: string) => {
-        if (selectedColor !== savedBgColor) {
-            dispatch(setSlideBackgroundColorModifier, {
-                slideId: slide.id,
-                color: selectedColor,
-            });
-        }
-    };
+    const latestRef = useRef({ bgColorInput, applyBgColor, onPreviewBackgroundColorChange });
+    latestRef.current = { bgColorInput, applyBgColor, onPreviewBackgroundColorChange };
+
+    useEffect(() => {
+        return () => {
+            latestRef.current.applyBgColor(latestRef.current.bgColorInput);
+            latestRef.current.onPreviewBackgroundColorChange?.(null);
+        };
+    }, []);
 
     const backgroundLoader = useImageLoader((src) => {
         dispatch(setSlideBackgroundImageModifier, {
@@ -36,9 +38,20 @@ function BackgroundPanel({slide}: BackgroundPanelProps) {
     });
 
     const clearBackground = () => {
+        onPreviewBackgroundColorChange?.(null);
         dispatch(clearSlideBackgroundModifier, {
             slideId: slide.id,
         });
+    };
+
+    const handleBackgroundInputChange = (newColor: string) => {
+        changeBgColorInput(newColor);
+        onPreviewBackgroundColorChange?.(newColor);
+    };
+
+    const handleBackgroundBlur = () => {
+        applyBgColor(bgColorInput);
+        onPreviewBackgroundColorChange?.(null);
     };
 
     return (
@@ -47,8 +60,8 @@ function BackgroundPanel({slide}: BackgroundPanelProps) {
                 <TextInput
                     type="color"
                     value={bgColorInput}
-                    onChange={changeBgColorInput}
-                    onBlur={applyBgColor}
+                    onChange={handleBackgroundInputChange}
+                    onBlur={handleBackgroundBlur}
                 />
             </div>
 

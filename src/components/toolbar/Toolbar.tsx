@@ -15,7 +15,6 @@ type ToolbarProps = {
     canRedo: boolean;
     onUndo: () => void;
     onRedo: () => void;
-
 };
 
 function Toolbar(props: ToolbarProps) {
@@ -29,7 +28,7 @@ function Toolbar(props: ToolbarProps) {
                     onChange={(name) => {
                         dispatch(updatePresentationNameModifier, name);
                     }
-                    }
+                }
                 />
             </div>
             <div className={styles.actions}>
