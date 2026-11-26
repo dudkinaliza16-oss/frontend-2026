@@ -1,3 +1,4 @@
+import {useState} from "react";
 import type {Presentation} from "../../domain/types/presentation.ts";
 import {SlideProperties} from "../slideProperties/SlideProperties.tsx";
 import {SlidePreview} from "../slidePreview/SlidePreview.tsx";
@@ -7,11 +8,14 @@ import {useSelection} from "../../hooks/useSelection.ts";
 
 type WorkspaceProps = {
     presentation: Presentation;
-}
+};
 
 function Workspace(props: WorkspaceProps) {
     const activeSlideId = getActiveSlideId();
     const {selectedIds, handleSlideClick, handlerSelect} = useSelection();
+    const [previewTextColor, setPreviewTextColor] = useState<string | null>(null);
+    const [previewBackgroundColor, setPreviewBackgroundColor] = useState<string | null>(null);
+
     const activeSlide = props.presentation.slides.find(
         slide => slide.id === activeSlideId
     );
@@ -31,6 +35,8 @@ function Workspace(props: WorkspaceProps) {
                         <SlideProperties
                             slide={activeSlide}
                             selectedObjectIds={selectedIds}
+                            onPreviewTextColorChange={setPreviewTextColor}
+                            onPreviewBackgroundColorChange={setPreviewBackgroundColor}
                         />
                     </div>
                     <div className={styles.slideArea}>
@@ -38,6 +44,8 @@ function Workspace(props: WorkspaceProps) {
                             slide={activeSlide}
                             mode="workspace"
                             selectedIds={selectedIds}
+                            previewTextColor={previewTextColor}
+                            previewBackgroundColor={previewBackgroundColor}
                             onObjectClick={handlerSelect}
                             onSlideClick={handleSlideClick}
                         />
@@ -48,6 +56,4 @@ function Workspace(props: WorkspaceProps) {
     );
 }
 
-export {
-    Workspace
-};
+export {Workspace};

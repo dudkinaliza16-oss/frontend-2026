@@ -12,6 +12,7 @@ import {useEffect, useState} from "react";
 type SlidePropertiesProps = {
     slide: Slide;
     selectedObjectIds: string[];
+    onPreviewTextColorChange: (color: string | null) => void;
     onPreviewBackgroundColorChange: (color: string | null) => void;
 };
 
@@ -53,10 +54,12 @@ function SlideProperties(props: SlidePropertiesProps) {
                 <TextStylePanel
                     slide={props.slide}
                     selectedObjectIds={props.selectedObjectIds}
+                    onPreviewColorChange={props.onPreviewTextColorChange}
                 />
                 {isBgPanelVisible && (
                     <BackgroundPanel
                         slide={props.slide}
+                        onPreviewBackgroundColorChange={props.onPreviewBackgroundColorChange}
                     />
                 )}
             </div>

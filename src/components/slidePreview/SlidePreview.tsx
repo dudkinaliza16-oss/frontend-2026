@@ -13,6 +13,7 @@ type SlidePreviewProps = {
     mode: "thumbnail" | "workspace" | "overlay";
     selectedIds?: string[];
     previewBackgroundColor?: string | null;
+    previewTextColor?: string | null;
     onObjectClick?: (event: React.MouseEvent, objectId: string) => void;
     onSlideClick?: (event: React.MouseEvent) => void;
 };
@@ -75,11 +76,22 @@ function SlidePreview(props: SlidePreviewProps) {
             currentHeight = currentSize.height;
         }
 
+        const objectWithPreview =
+            object.type === "text" && isSelected && props.previewTextColor != null
+                ? {
+                    ...object,
+                    font: {
+                        ...object.font,
+                        color: props.previewTextColor,
+                    },
+                }
+                : object;
+
         return (
             <SlideObject
                 key={object.id}
                 object={{
-                    ...object,
+                    ...objectWithPreview,
                     location: { x: currentX, y: currentY },
                     size: { width: currentWidth, height: currentHeight },
                 }}

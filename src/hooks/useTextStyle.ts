@@ -17,6 +17,7 @@ function getTextStyleState(selectedTextObjects: TextObject[]) {
     let hasMixedFamily = false;
     let hasMixedSize = false;
     let hasMixedColor = false;
+
     for (let i = 1; i < selectedTextObjects.length; i++) {
         const obj = selectedTextObjects[i];
         if (obj.font.family !== firstText.font.family) {
@@ -29,16 +30,11 @@ function getTextStyleState(selectedTextObjects: TextObject[]) {
             hasMixedColor = true;
         }
     }
+
     return {
-        fontFamily: !hasMixedFamily
-            ? firstText.font.family
-            : "",
-        fontSizeValue: !hasMixedSize
-            ? String(firstText.font.size)
-            : "",
-        fontColor: !hasMixedColor
-            ? firstText.font.color
-            : "#000000",
+        fontFamily: !hasMixedFamily ? firstText.font.family : "",
+        fontSizeValue: !hasMixedSize ? String(firstText.font.size) : "",
+        fontColor: !hasMixedColor ? firstText.font.color : "#000000",
     };
 }
 
@@ -49,17 +45,18 @@ function useTextStyle(slide: Slide, selectedObjectIds: string[]) {
     );
 
     const styleState = getTextStyleState(selectedTextObjects);
+    const selectionKey = selectedObjectIds.join(",");
 
     const [fontFamily, setFontFamily] = useState<string>(styleState.fontFamily);
     const [fontSize, setFontSize] = useState<string>(styleState.fontSizeValue);
-    const [draftColor, setDraftColor] = useState<string>(styleState.fontColor);
+    const [fontColor, setFontColor] = useState<string>(styleState.fontColor);
 
     useEffect(() => {
         setFontFamily(styleState.fontFamily);
         setFontSize(styleState.fontSizeValue);
-        setDraftColor(styleState.fontColor);
+        setFontColor(styleState.fontColor);
     }, [
-        selectedObjectIds,
+        selectionKey,
         styleState.fontFamily,
         styleState.fontSizeValue,
         styleState.fontColor,
@@ -97,12 +94,13 @@ function useTextStyle(slide: Slide, selectedObjectIds: string[]) {
         });
     };
 
-    const applyFontColor = () => {
+    const applyFontColor = (newColor: string) => {
+        setFontColor(newColor);
         selectedTextObjects.forEach((textObj) => {
-            if (draftColor !== textObj.font.color) {
+            if (newColor !== textObj.font.color) {
                 dispatch(updateTextObjectStyleModifier, {
                     objectId: textObj.id,
-                    newFont: {...textObj.font, color: draftColor},
+                    newFont: {...textObj.font, color: newColor},
                 });
             }
         });
@@ -112,8 +110,8 @@ function useTextStyle(slide: Slide, selectedObjectIds: string[]) {
         selectedTextObjects,
         fontFamily,
         fontSize,
-        draftColor,
-        setDraftColor,
+        fontColor,
+        setFontColor,
         applyFontFamily,
         applyFontSize,
         applyFontColor,
