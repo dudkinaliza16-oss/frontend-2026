@@ -138,11 +138,13 @@ function SlidePreview(props: SlidePreviewProps) {
             backgroundColor: props.previewBackgroundColor,
         }
         : backgroundStyle;
-
+    const slideCanvasClass = props.mode === "thumbnail"
+            ? `${previewClass} slide-canvas`
+            : previewClass;
     return (
         <div
-            className={previewClass}
-            style={{ ...liveBackgroundStyle}}
+            className={slideCanvasClass}
+            style={{ ...liveBackgroundStyle }}
             onClick={(event) => {
                 if (props.mode === "thumbnail") {
                     props.onSlideClick?.(event);

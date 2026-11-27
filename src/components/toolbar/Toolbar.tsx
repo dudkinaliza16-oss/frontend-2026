@@ -8,6 +8,7 @@ import {
     addSlideModifier,
     updatePresentationNameModifier
 } from "../../modules/modifiers.ts";
+import {usePdfExport} from "../../hooks/usePdfExport.ts";
 
 type ToolbarProps = {
     presentation: Presentation;
@@ -18,6 +19,7 @@ type ToolbarProps = {
 };
 
 function Toolbar(props: ToolbarProps) {
+    const {exportToPdf, isExporting} = usePdfExport(props.presentation.name)
     return (
         <div className={styles.toolbar}>
             <div>
@@ -59,9 +61,12 @@ function Toolbar(props: ToolbarProps) {
                     }}
                 />
                 <Button
-                    text="Save PDF"
+                    text={isExporting === true
+                        ? "Exporting.."
+                        : "Save PDF"}
                     className={buttonStyles.button}
-                    onClick={() => console.log('save')}
+                    onClick={exportToPdf}
+                    disabled={isExporting}
                 />
             </div>
         </div>
