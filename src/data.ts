@@ -60,11 +60,6 @@ function createTestPresentation(): Presentation {
     slide1 = addSlideObject(slide1, generateTextObject(generateId(),
         'Лабораторная работа #2', 50, 120, 400, 40, 0, 'Arial', 20, '#666666'));
 
-    slide1 = addSlideObject(slide1, generateImageObject(
-        generateId(),
-        'https://static.mk.ru/upload/entities/2026/02/18/19/articlesImages/image/a4/99/31/af/05768fe712a79cc7755d46e011ee745e.jpg',
-        500, 50, 200, 200, 0, 1
-    ));
 
     presentation = {
         ...presentation,
